@@ -1,0 +1,225 @@
+/* Reset Básico para melhor visualização em navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif; /* Fonte padrão */
+}
+
+body {
+    background-color: #f4f4f4; /* Fundo cinza claro */
+    color: #333;
+}
+
+/* Estilo do Cabeçalho */
+header {
+    background-color: #007bff; /* Azul primário (Cor comum em sites de vendas) */
+    color: rgb(247, 246, 246);
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between; /* Alinha o logo e a navegação nas pontas */
+    align-items: center;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* Estilo da Lista de Veículos */
+.vehicle-list {
+    padding: 20px 50px;
+}
+
+.vehicle-list h3 {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Estilo do Rodapé */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+/* Estilo para a Lista de Veículos */
+.vehicle-list {
+    display: flex; /* Permite que os cards fiquem lado a lado */
+    flex-wrap: wrap; /* Quebra a linha se não houver espaço */
+    gap: 20px; /* Espaço entre os cards */
+    padding: 20px 50px;
+    justify-content: center; /* Centraliza os cards na página */
+}
+
+/* Estilo para cada Card de Veículo */
+.vehicle-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Largura fixa para o card */
+    overflow: hidden; /* Garante que a imagem se encaixe */
+    text-align: left;
+}
+
+.vehicle-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+}
+
+.vehicle-card h4, .vehicle-card p {
+    padding: 0 15px;
+    margin-bottom: 8px;
+}
+
+.vehicle-card h4 {
+    margin-top: 15px;
+    color: #007bff;
+}
+
+.vehicle-card .price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #28a745; /* Cor de destaque para o preço */
+}
+
+.vehicle-card button {
+    width: calc(100% - 30px); /* Largura total menos o padding */
+    margin: 10px 15px 15px 15px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.vehicle-card button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Estilos para Filtros Detalhados (Ajustado) --- */
+.advanced-filters {
+    background-color: #eee;
+    padding: 20px 50px;
+    border-bottom: 1px solid #ddd;
+}
+
+.advanced-filters h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#filter-form {
+    display: flex;
+    flex-direction: column; /* Coloca os elementos um abaixo do outro por padrão */
+    gap: 15px; 
+    align-items: stretch; /* Garante que os inputs preencham a largura */
+}
+
+/* Novo estilo para o campo de Localidade, para ocupar a largura total no topo */
+#filter-form input[type="text"] {
+    padding: 10px;
+    border: 1px solid #007bff; /* Borda azul para destacar a busca principal */
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 5px; /* Espaço após o input principal */
+}
+
+/* Um container para os SELECTs, para alinhá-los lado a lado */
+.filter-selects-row {
+    display: flex;
+    gap: 15px;
+}
+
+#filter-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    flex-grow: 1; 
+}
+
+#filter-form button {
+    padding: 10px 20px;
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    /* Faz o botão preencher a largura total, como os inputs */
+    align-self: flex-start; 
+    width: 200px; /* Largura fixa para o botão */
+}
+
+#filter-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para as Telas de Autenticação (Login e Cadastro) */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto; /* Centraliza a caixa vertical e horizontalmente */
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.auth-container h2 {
+    color: #007bff;
+    margin-bottom: 25px;
+}
+
+/* Estilo para os formulários dentro do container */
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-container label {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.auth-container input[type="email"],
+.auth-container input[type="password"],
+.auth-container input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.auth-container button {
+    padding: 12px;
+    background-color: #28a745; /* Botão verde de ação */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.auth-container button:hover {
+    background-color: #1e7e34;
+}
+
+.auth-container p {
+    margin-top: 15px;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Motores - Venda e Compra de Automóveis</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Internet Motores</h1>
+        <nav>
+            <a href="login.html">Login/Cadastro</a>
+            <a href="anunciar.html">Anunciar</a>
+        </nav>
+    </header>
+
+<div class="advanced-filters">
+    <h3>Filtros Detalhados (RF 4º)</h3>
+    <form id="filter-form">
+        
+        <input type="text" id="city-state" placeholder="Cidade/Estado (Ex: São Paulo, SP)">
+        
+        <div class="filter-selects-row">
+            
+            <select id="fabricante">
+                <option value="">Fabricante (Todos)</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Honda">Honda</option>
+                <option value="Chevrolet">Chevrolet</option>
+            </select>
+
+            <select id="ano-fab">
+                <option value="">Ano (Todos)</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2019">2019</option>
+            </select>
+
+            <select id="cambio">
+                <option value="">Câmbio (Todos)</option>
+                <option value="manual">Manual</option>
+                <option value="automatico">Automático</option>
+            </select>
+
+        </div> <button type="submit">Aplicar Filtros</button>
+    </form>
+</div>
+
+    <section class="vehicle-list">
+        <h3>Veículos em Destaque</h3>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Internet Motores. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
