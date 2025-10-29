@@ -11,15 +11,14 @@
     <header>
         <h1>LinkCar</h1>
         <nav>
-            <a href="index.html">Página Inicial</a> 
-            <a href="anunciar.html">Anunciar</a>
+            <a href="index.html">Página Inicial</a>
+            <a href="cadastro.html">Cadastro</a> 
         </nav>
     </header>
 
     <section class="auth-container">
         <h2>Acesso de Usuário</h2>
-        <form id="login-form">
-            <label for="email">E-mail:</label>
+        <form id="login-form" onsubmit="handleLogin(event)">            <label for="email">E-mail:</label>
             <input type="email" id="email" required>
 
             <label for="password">Senha:</label>
@@ -33,5 +32,6 @@
     <footer>
         <p>&copy; 2025 LinkCar. Todos os direitos reservados.</p>
     </footer>
+    <script src="js/script.js"></script>
 </body>
 </html>

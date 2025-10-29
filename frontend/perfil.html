@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkCar - Meu Perfil</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    
+    <header>
+        <h1>LinkCar</h1>
+        <nav>
+            </nav>
+    </header>
+
+<section class="perfil-container">
+    <h2>Meu Perfil</h2>
+    
+    <div class="perfil-card info-pessoal">
+        <h3>Dados Pessoais</h3>
+        
+        <form id="perfil-form" onsubmit="handleProfileEdit(event)">
+            <label for="nome">Nome:</label> <input type="text" id="nome" required>
+    
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" required>
+    
+            <label for="senha">Nova Senha (deixe em branco para manter a atual):</label>
+            <input type="password" id="senha" placeholder="********">
+    
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <div class="perfil-card meus-anuncios">
+        <h3>Meus Anúncios</h3>
+        <p>Aqui você pode gerenciar os carros que estão à venda.</p>
+        
+        <a href="anunciar.html" class="new-ad-button">
+            + Anunciar Novo Veículo
+        </a>
+
+        <div class="user-ad-list">
+            <p class="ad-placeholder">Nenhum anúncio ativo. Publique seu primeiro carro!</p>
+            </div>
+    </div>
+
+</section>
+
+    <footer>
+        <p>&copy; 2025 LinkCar. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script src="js/script.js"></script> 
+</body>
+</html>

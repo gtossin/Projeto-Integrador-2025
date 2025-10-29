@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkCar - Anunciar Meu Veículo</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    
+    <header>
+        <h1>LinkCar</h1>
+        <nav>
+            <a href="index.html">Página Inicial</a>
+            <a href="anunciar.html">Anunciar</a> <a href="perfil.html">Meu Perfil</a> 
+        </nav>
+    </header>
+
+<section class="anuncio-container">
+    <h2>Venda Seu Carro na LinkCar!</h2>
+    
+    <form id="anuncio-form">
+        
+        <fieldset>
+            <legend>Informações do Veículo</legend>
+            <label for="marca">Marca:</label>
+            <input type="text" id="marca" required placeholder="Ex: Toyota">
+
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" required placeholder="Ex: Corolla">
+
+            <label for="ano">Ano de Fabricação:</label>
+            <input type="number" id="ano" min="1900" max="2026" required placeholder="Ex: 2022">
+
+            <label for="preco">Preço (R$):</label>
+            <input type="number" id="preco" step="any" required placeholder="Ex: 75000.00">
+        </fieldset>
+        
+        <fieldset>
+            <legend>Detalhes e Localização</legend>
+            
+            <label for="localizacao">Localização (Cidade/Estado):</label>
+            <input type="text" id="localizacao" required placeholder="Ex: São Paulo, SP">
+            
+            <label for="descricao">Descrição Completa:</label>
+            <textarea id="descricao" rows="5" required placeholder="Ex: Único dono, todas as revisões na concessionária, carro de não fumante..."></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Fotos do Veículo</legend>
+            <p>Adicione fotos de alta qualidade para vender mais rápido!</p>
+            <label for="fotos">Anexar Fotos:</label>
+            <input type="file" id="fotos" multiple accept="image/*" required>
+        </fieldset>
+
+        <button type="submit">Publicar Anúncio</button>
+    </form>
+</section>
+
+    <footer>
+        <p>&copy; 2025 LinkCar. Todos os direitos reservados.</p>
+    </footer>
+
+    </body>
+</html>

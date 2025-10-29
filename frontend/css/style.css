@@ -223,3 +223,170 @@ footer {
 .auth-container p {
     margin-top: 15px;
 }
+
+
+/* --- Estilos Específicos para a Tela de Anúncio --- */
+
+.anuncio-container {
+    max-width: 700px; /* Mais largo que o auth-container para acomodar o formulário */
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.anuncio-container h2 {
+    color: #007bff;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Estilo para agrupar campos com bordas */
+.anuncio-container fieldset {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.anuncio-container legend {
+    font-weight: bold;
+    color: #333;
+    padding: 0 10px;
+}
+
+/* Estilos de input e label (reutilizando e ajustando) */
+.anuncio-container label {
+    display: block; /* Garante que cada label fique em sua própria linha */
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.anuncio-container input[type="text"],
+.anuncio-container input[type="number"],
+.anuncio-container textarea,
+.anuncio-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total */
+}
+
+.anuncio-container textarea {
+    resize: vertical; /* Permite redimensionar apenas na vertical */
+}
+
+/* Estilo do botão de Publicar (Reutilizando a cor de ação verde do seu login/cadastro) */
+.anuncio-container button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.anuncio-container button[type="submit"]:hover {
+    background-color: #1e7e34;
+}
+
+
+/* --- Estilos Específicos para a Tela de Perfil --- */
+
+.perfil-container {
+    max-width: 800px; 
+    margin: 30px auto;
+    padding: 30px;
+    /* Usa o Flexbox para alinhar os dois cartões (info e anúncios) */
+    display: flex; 
+    gap: 30px; /* Espaço entre os cartões */
+    align-items: flex-start; /* Alinha os blocos pelo topo */
+}
+
+/* Estilo para cada cartão (Dados Pessoais e Meus Anúncios) */
+.perfil-card {
+    flex: 1; /* Faz com que ambos ocupem espaço igual */
+    background-color: white;
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.perfil-card h3 {
+    color: #007bff;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilos de inputs no perfil (reutiliza os inputs da autenticação) */
+.perfil-card form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.perfil-card form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Botão de salvar */
+.perfil-card button[type="submit"] {
+    padding: 10px 15px;
+    background-color: #28a745; /* Verde de ação */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.perfil-card button[type="submit"]:hover {
+    background-color: #1e7e34;
+}
+
+/* Estilo do botão de Anunciar Novo Veículo (link) */
+.new-ad-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    background-color: #ffc107; /* Amarelo/Laranja para ação de anúncio */
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.new-ad-button:hover {
+    background-color: #e0a800;
+}
+
+/* Ajuste para telas pequenas (mobile) */
+@media (max-width: 850px) {
+    .perfil-container {
+        flex-direction: column; /* Pilha os blocos verticalmente */
+        padding: 20px;
+    }
+}
