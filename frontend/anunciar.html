@@ -19,36 +19,88 @@
 <section class="anuncio-container">
     <h2>Venda Seu Carro na LinkCar!</h2>
     
-    <form id="anuncio-form">
+    <form id="anuncio-form" onsubmit="handleAnuncio(event)">
         
         <fieldset>
-            <legend>Informações do Veículo</legend>
+            <legend>1. Dados Essenciais</legend>
             <label for="marca">Marca:</label>
             <input type="text" id="marca" required placeholder="Ex: Toyota">
 
             <label for="modelo">Modelo:</label>
             <input type="text" id="modelo" required placeholder="Ex: Corolla">
 
-            <label for="ano">Ano de Fabricação:</label>
-            <input type="number" id="ano" min="1900" max="2026" required placeholder="Ex: 2022">
+            <label for="versao">Versão:</label>
+            <input type="text" id="versao" placeholder="Ex: XEi 2.0 (Opcional)">
+
+            <label for="ano_modelo">Ano de Fabricação/Modelo:</label>
+            <input type="text" id="ano_modelo" required placeholder="Ex: 2022/2023" [cite: 6]>
 
             <label for="preco">Preço (R$):</label>
             <input type="number" id="preco" step="any" required placeholder="Ex: 75000.00">
-        </fieldset>
-        
-        <fieldset>
-            <legend>Detalhes e Localização</legend>
-            
+
             <label for="localizacao">Localização (Cidade/Estado):</label>
             <input type="text" id="localizacao" required placeholder="Ex: São Paulo, SP">
+        </fieldset>
+        
+    <fieldset>
+        <legend>2. Ficha Técnica Básica</legend>
+    
+        <div class="field-group">
+        
+            <div class="field-item">
+                <label for="combustivel">Combustível:</label>
+                <select id="combustivel" required>
+                    <option value="">Selecione</option>
+                    <option value="Flex">Flex</option>
+                    <option value="Gasolina">Gasolina</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
+            </div>
+
+            <div class="field-item">
+                <label for="litragem">Litragem/Motor (Opcional):</label>
+                <input type="text" id="litragem" placeholder="Ex: 1.0 ou 2.0 Turbo">
+            </div>
+        </div>
+
+        <div class="field-group">
+            <div class="field-item">
+                <label for="cambio_tipo">Tipo de Câmbio:</label>
+                <select id="cambio_tipo" required>
+                    <option value="">Selecione</option>
+                    <option value="manual">Manual</option>
+                    <option value="automatico">Automático</option>
+                    <option value="automatizado">Automatizado</option>
+                    </select>
+                </div>
+
+                <div class="field-item">
+                    <label for="tracao">Tração (Opcional):</label>
+                    <input type="text" id="tracao" placeholder="Ex: Dianteira ou 4x4">
+                </div>
+            </div>
+        </fieldset>
+
+        
+        <fieldset>
+            <legend>3. Acessórios e Descrição</legend>
             
-            <label for="descricao">Descrição Completa:</label>
-            <textarea id="descricao" rows="5" required placeholder="Ex: Único dono, todas as revisões na concessionária, carro de não fumante..."></textarea>
+            <label for="descricao">Descrição Completa do Veículo:</label>
+            <textarea id="descricao" rows="4" required placeholder="Ex: Único dono, todas as revisões em dia, nunca batido."></textarea>
+
+            <label for="seguranca">Itens de Segurança (Opcional):</label>
+            <textarea id="seguranca" rows="3" placeholder="Ex: 6 Airbags, ABS, ISOFIX..." [cite: 15]></textarea>
+
+            <label for="conforto">Itens de Conforto (Opcional):</label>
+            <textarea id="conforto" rows="3" placeholder="Ex: Ar Condicionado Digital, Bancos de Couro..." [cite: 16]></textarea>
+
+            <label for="infotenimento">Itens de Infotenimento (Opcional):</label>
+            <textarea id="infotenimento" rows="3" placeholder="Ex: Central Multimídia 10 polegadas, Android Auto/CarPlay..." [cite: 17]></textarea>
         </fieldset>
 
         <fieldset>
-            <legend>Fotos do Veículo</legend>
-            <p>Adicione fotos de alta qualidade para vender mais rápido!</p>
+            <legend>4. Fotos do Veículo</legend>
+            <p>Adicione fotos de alta qualidade (Mínimo de 3)</p>
             <label for="fotos">Anexar Fotos:</label>
             <input type="file" id="fotos" multiple accept="image/*" required>
         </fieldset>

@@ -395,3 +395,82 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+// ----------------------------------------------------------------------
+// LÓGICA DE SIMULAÇÃO DE ANÚNCIO (RF 8º)
+// ----------------------------------------------------------------------
+function handleAnuncio(event) {
+    event.preventDefault(); // Impede o recarregamento da página
+
+    // 1. Coleta dos dados do vendedor (usuário logado)
+    const loggedUserString = localStorage.getItem('loggedInUser');
+    if (!loggedUserString) {
+        alert("Erro: Você precisa estar logado para publicar um anúncio.");
+        return;
+    }
+    const user = JSON.parse(loggedUserString);
+
+    // 🎯 NOVO: Garantir que o Preço é um número válido 🎯
+    const precoValue = document.getElementById('preco').value;
+    const precoFloat = parseFloat(precoValue);
+    if (isNaN(precoFloat)) {
+        alert("Erro de Validação: Por favor, insira um preço válido (apenas números).");
+        return; 
+    }
+
+    // 🎯 NOVO: Garantir que os campos SELECT foram selecionados (se forem required) 🎯
+    const combustivelValue = document.getElementById('combustivel').value;
+    const cambioTipoValue = document.getElementById('cambio_tipo').value;
+
+    if (!combustivelValue || !cambioTipoValue) {
+        alert("Erro de Validação: Por favor, selecione o Combustível e o Tipo de Câmbio.");
+        return;
+    }
+    
+    
+    // 2. Coleta dos dados do veículo (campos do formulário)
+    const novoAnuncio = {
+        // Bloco 1: Identificação e Preço (Obrigatório)
+        id: Date.now(), // ID único baseado no tempo (simulação)
+        vendedorEmail: user.email,
+        marca: document.getElementById('marca').value.trim(),
+        modelo: document.getElementById('modelo').value.trim(),
+        versao: document.getElementById('versao').value.trim(),
+        anoModelo: document.getElementById('ano_modelo').value.trim(),
+        preco: precoFloat, // Usa o valor já validado
+        localizacao: document.getElementById('localizacao').value.trim(),
+        
+        // Bloco 2: Mecânica e Filtros
+        combustivel: combustivelValue,
+        litragem: document.getElementById('litragem').value.trim(),
+        cambioTipo: cambioTipoValue,
+        tracao: document.getElementById('tracao').value.trim(),
+
+        // Bloco 3: Acessórios e Descrição
+        descricao: document.getElementById('descricao').value.trim(),
+        seguranca: document.getElementById('seguranca').value.trim(),
+        conforto: document.getElementById('conforto').value.trim(),
+        infotenimento: document.getElementById('infotenimento').value.trim(),
+        
+        // Bloco 4: Fotos (Simulação da URL)
+        // Em um sistema real, aqui salvaríamos as URLs das fotos carregadas no servidor
+        fotosCount: document.getElementById('fotos').files.length || 0,
+        status: 'Ativo'
+    };
+
+    // 3. Simulação de salvamento (em um array de anúncios no localStorage)
+    let anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
+    
+    // Adiciona o novo anúncio à lista
+    anuncios.push(novoAnuncio);
+
+    // Salva a lista atualizada de volta
+    localStorage.setItem('anuncios', JSON.stringify(anuncios));
+
+    // 4. Feedback e Redirecionamento
+    alert('✅ Anúncio Publicado com Sucesso! (' + novoAnuncio.marca + ' ' + novoAnuncio.modelo + ')');
+    
+    // Redireciona para a página de perfil para que o vendedor possa ver o anúncio
+    window.location.href = 'perfil.html';
+}
