@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkCar - Detalhes do Veículo</title>
+    <!-- Carregando Tailwind CSS CDN para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração da fonte Inter -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fundo suave */
+        }
+        /* Estilo para listas dentro do conteúdo detalhado */
+        .detail-list li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        .detail-list li::before {
+            content: '✓'; /* Ícone personalizado */
+            position: absolute;
+            left: 0;
+            color: #10B981; /* Cor verde para destaque */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Cabeçalho (Estilo LinkCar) -->
+    <header class="bg-blue-600 shadow-md text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tight">LinkCar</h1>
+            <!-- Nav é preenchida pelo JavaScript (updateNavigation) -->
+            <nav id="main-nav" class="flex space-x-4">
+                <span class="text-sm">Carregando navegação...</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Seção de Detalhes do Veículo -->
+    <section class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div id="details-container">
+            <!-- Título e conteúdo serão inseridos aqui pelo JavaScript -->
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-8 border-b-4 border-blue-500 pb-2">
+                Detalhes do Veículo
+            </h2>
+            
+            <div id="vehicle-details" class="bg-white p-6 md:p-10 rounded-xl shadow-2xl border border-gray-100 space-y-8">
+                <!-- Placeholder de carregamento/erro -->
+                <p id="loading-message" class="text-center text-lg text-gray-500">Carregando detalhes do veículo...</p>
+                <!-- O conteúdo real entra aqui -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; <span id="current-year"></span> LinkCar. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Lógica JavaScript (Monolítica) -->
+    <script>
+        // Imagem Base64 de fallback (se o link externo falhar)
+        const BASE64_PLACEHOLDER = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzE4M1I5Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjBweCIgZmlsbD0iI0ZGRkZGRiIgZm9udC1mYW1pbHk9IkFyaWFsIj5MaW5rQ2FyPC90ZXh0Pjwvc3ZnPg==";
+        
+        // --- SIMULAÇÃO DO BANCO DE DADOS FIXO ---
+        // (Será usado como fallback se não houver dados no localStorage)
+        const HARDCODED_VEICULOS = [
+            {
+                id: 1,
+                marca: "Toyota",
+                modelo: "Corolla",
+                ano: 2022,
+                preco: 120000,
+                localizacao: "São Paulo, SP",
+                descricao: "Carro em ótimo estado, baixa quilometragem, todas as revisões na concessionária.",
+                fotoUrl: "https://placehold.co/800x600/38A169/FFFFFF?text=Toyota+Corolla",
+                fabricante: "Toyota",
+                cambioTipo: "automatico",
+                combustivel: "Flex",
+                versao: "XEi 2.0",
+                litragem: "2.0",
+                tracao: "Dianteira",
+                seguranca: "6 Airbags, ABS, Câmera de Ré.",
+                conforto: "Ar Condicionado Digital, Piloto Automático, Bancos de Tecido.",
+                infotenimento: "Central Multimídia 8 polegadas, Bluetooth.",
+                vendedor: "João M."
+            },
+            {
+                id: 2,
+                marca: "Honda",
+                modelo: "Civic",
+                ano: 2019,
+                preco: 95000,
+                localizacao: "Campinas, SP",
+                descricao: "Completo, único dono, com todas as revisões em dia.",
+                fotoUrl: "https://placehold.co/800x600/3182CE/FFFFFF?text=Honda+Civic",
+                fabricante: "Honda",
+                cambioTipo: "manual",
+                combustivel: "Gasolina",
+                versao: "Sport 1.5",
+                litragem: "1.5 Turbo",
+                tracao: "Dianteira",
+                seguranca: "4 Airbags, Freios a Disco nas 4 Rodas.",
+                conforto: "Teto Solar, Bancos em Couro (Simulação).",
+                infotenimento: "Sistema de Som Premium.",
+                vendedor: "Maria S."
+            },
+            {
+                id: 3,
+                marca: "Chevrolet",
+                modelo: "Onix",
+                ano: 2023,
+                preco: 75000,
+                localizacao: "Rio de Janeiro, RJ",
+                descricao: "Seminovo, econômico e ideal para a cidade. Baixo consumo de combustível.",
+                fotoUrl: "https://placehold.co/800x600/E53E3E/FFFFFF?text=Chevrolet+Onix",
+                fabricante: "Chevrolet",
+                cambioTipo: "manual",
+                combustivel: "Flex",
+                versao: "LT 1.0",
+                litragem: "1.0",
+                tracao: "Dianteira",
+                seguranca: "Airbags frontais, Controle de estabilidade.",
+                conforto: "Vidros e Travas elétricas.",
+                infotenimento: "Rádio com entrada USB.",
+                vendedor: "Pedro A."
+            }
+        ];
+
+        // --- FUNÇÃO DE FEEDBACK CUSTOMIZADA (mantida a simplicidade) ---
+        function showMessage(message, type = 'info') {
+            const container = document.getElementById('details-container');
+            let box = document.getElementById('message-box');
+            
+            if (!box) {
+                box = document.createElement('div');
+                box.id = 'message-box';
+                box.className = 'p-4 rounded-lg text-sm text-center mb-4';
+                container.prepend(box);
+            }
+            
+            box.textContent = message;
+            box.className = 'p-4 rounded-lg text-sm text-center mb-4';
+            
+            if (type === 'success') {
+                box.classList.add('bg-green-100', 'text-green-700');
+            } else if (type === 'error') {
+                box.classList.add('bg-red-100', 'text-red-700');
+            } else {
+                box.classList.add('bg-blue-100', 'text-blue-700');
+            }
+        }
+        
+        // --- GESTÃO DE ESTADO DE LOGIN (RF 1º) ---
+        function updateNavigation() {
+            const nav = document.getElementById('main-nav');
+            const loggedInUser = localStorage.getItem('loggedInUser'); 
+            
+            nav.innerHTML = ''; 
+            nav.classList.add('flex', 'space-x-4', 'items-center'); 
+
+            nav.innerHTML += '<a href="index.html" class="hover:text-blue-200 transition duration-150">Página Inicial</a>';
+
+            if (loggedInUser) {
+                nav.innerHTML += '<a href="anunciar.html" class="font-bold text-yellow-300 hover:text-yellow-400 transition duration-150">Anunciar</a>';
+                nav.innerHTML += '<a href="perfil.html" class="hover:text-blue-200 transition duration-150">Meu Perfil</a>';
+                nav.innerHTML += '<button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1 px-3 rounded-lg transition duration-200 shadow-md">Sair</button>';
+            } else {
+                nav.innerHTML += '<a href="login.html" class="bg-yellow-400 text-blue-800 font-bold py-1 px-3 rounded-lg hover:bg-yellow-300 transition duration-150">Login/Cadastro</a>';
+            }
+        }
+
+        // --- LÓGICA DE DETALHES DO VEÍCULO ---
+        function loadVehicleDetails() {
+            const detailsElement = document.getElementById('vehicle-details');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // 1. Pega o ID da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const vehicleId = parseInt(urlParams.get('id'));
+            
+            if (loadingMessage) loadingMessage.remove(); // Remove o placeholder de carregamento
+
+            if (isNaN(vehicleId)) {
+                detailsElement.innerHTML = '<p class="text-red-500">Erro: ID do veículo não encontrado na URL.</p>';
+                return;
+            }
+
+            // 2. Tenta buscar o veículo
+            let vehicle = null;
+            let source = 'hardcoded';
+
+            // A) Busca nos anúncios publicados (localStorage)
+            const savedAnuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
+            vehicle = savedAnuncios.find(a => a.id === vehicleId);
+
+            if (vehicle) {
+                source = 'localStorage';
+            } else {
+                // B) Busca nos veículos fixos (simulação)
+                vehicle = HARDCODED_VEICULOS.find(v => v.id === vehicleId);
+            }
+
+            // 3. Renderiza ou mostra erro
+            if (vehicle) {
+                renderDetails(vehicle, detailsElement, source);
+            } else {
+                detailsElement.innerHTML = `<p class="text-red-500">Veículo com ID ${vehicleId} não encontrado na base de dados.</p>`;
+            }
+        }
+
+        function renderDetails(vehicle, container, source) {
+            // Formata o preço para o padrão brasileiro
+            const precoFormatado = vehicle.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            // Define a URL da foto (usa a URL do objeto se disponível, senão usa placeholder fixo)
+            const fotoUrl = vehicle.fotoUrl || "https://placehold.co/800x600/2563EB/FFFFFF?text=Foto+LinkCar";
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Coluna da Imagem e Preço -->
+                    <div class="lg:col-span-1">
+                        <img 
+                            src="${fotoUrl}" 
+                            alt="${vehicle.marca} ${vehicle.modelo}" 
+                            class="w-full h-auto object-cover rounded-lg shadow-xl"
+                            onerror="this.onerror=null; this.src='${BASE64_PLACEHOLDER}';"
+                        >
+                        <div class="mt-4 p-4 bg-blue-500 text-white rounded-lg shadow-lg text-center">
+                            <h3 class="text-2xl font-bold">Preço:</h3>
+                            <p class="text-4xl font-extrabold">${precoFormatado}</p>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-2"><path d="M22 16.92v3a2 2 0 0 1-2 2h-4.08c-1.33 0-2.58-.65-3.34-1.74l-2.07-2.94c-.95-1.35-.95-3.08 0-4.43l2.07-2.94c.76-1.09 2.01-1.74 3.34-1.74H20a2 2 0 0 1 2 2v3"/></svg>
+                                Falar com o Vendedor (${vehicle.vendedor || 'Anunciante'})
+                            </button>
+                            <p class="text-sm text-gray-500 mt-2">Localizado em: ${vehicle.localizacao}</p>
+                        </div>
+                    </div>
+
+                    <!-- Coluna de Detalhes -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <div class="border-b pb-4">
+                            <h2 class="text-4xl font-bold text-gray-900">${vehicle.marca} ${vehicle.modelo}</h2>
+                            <p class="text-xl text-gray-600">${vehicle.versao || 'Versão não especificada'} | ${vehicle.anoModelo || vehicle.ano}</p>
+                            <p class="text-sm text-gray-400 mt-1">(ID: ${vehicle.id} - Fonte: ${source})</p>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-3">Sobre o Veículo</h3>
+                            <p class="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg border">
+                                ${vehicle.descricao}
+                            </p>
+                        </div>
+
+                        <!-- Ficha Técnica -->
+                        <div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-3">Ficha Técnica</h3>
+                            <div class="grid grid-cols-2 gap-4 text-gray-700">
+                                <p><strong>Fabricante:</strong> ${vehicle.fabricante || vehicle.marca}</p>
+                                <p><strong>Combustível:</strong> ${vehicle.combustivel || 'N/A'}</p>
+                                <p><strong>Litragem/Motor:</strong> ${vehicle.litragem || 'N/A'}</p>
+                                <p><strong>Câmbio:</strong> ${vehicle.cambioTipo || 'N/A'}</p>
+                                <p><strong>Tração:</strong> ${vehicle.tracao || 'N/A'}</p>
+                                <p><strong>Ano Fab/Mod:</strong> ${vehicle.anoModelo || vehicle.ano}</p>
+                            </div>
+                        </div>
+
+                        <!-- Acessórios -->
+                        ${renderAccessorySection('Segurança', vehicle.seguranca, vehicle.id)}
+                        ${renderAccessorySection('Conforto', vehicle.conforto, vehicle.id)}
+                        ${renderAccessorySection('Infotenimento', vehicle.infotenimento, vehicle.id)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Função auxiliar para renderizar seções de acessórios
+        function renderAccessorySection(title, data, id) {
+            // Verifica se o campo existe E se não está como 'N/A' ou vazio
+            if (!data || data === 'N/A' || data.toLowerCase() === 'não informado' || data.trim() === '') {
+                return ''; // Não renderiza a seção
+            }
+            
+            // Assume que os itens estão separados por vírgula (ou apenas um bloco de texto)
+            const items = data.split(',').map(item => item.trim()).filter(item => item.length > 0);
+
+            return `
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">${title}</h3>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-700 detail-list">
+                        ${items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+
+        // --- INICIALIZAÇÃO E LISTENERS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Define o ano atual no rodapé
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // 2. Atualiza a navegação
+            updateNavigation();
+            
+            // 3. Adiciona listener para o botão de logout (caso seja visível)
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('loggedInUser'); 
+                    showMessage('Você saiu da sua conta. Redirecionando...', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'index.html'; 
+                    }, 500);
+                });
+            }
+
+            // 4. Carrega os detalhes do veículo
+            loadVehicleDetails();
+        });
+    </script>
+</body>
+</html>

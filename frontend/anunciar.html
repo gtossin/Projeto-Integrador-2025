@@ -3,115 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkCar - Anunciar Meu Veículo</title>
-    <link rel="stylesheet" href="css/style.css"> 
+    <title>AutoFacil - Anunciar Meu Veículo</title>
+    <!-- Carregando Tailwind CSS CDN para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração da fonte Inter -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fundo suave */
+        }
+    </style>
 </head>
-<body>
-    
-    <header>
-        <h1>LinkCar</h1>
-        <nav>
-            <a href="index.html">Página Inicial</a>
-            <a href="anunciar.html">Anunciar</a> <a href="perfil.html">Meu Perfil</a> 
-        </nav>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Cabeçalho (Estilo AutoFacil) -->
+    <header class="bg-blue-600 shadow-md text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tight">AutoFacil</h1>
+            <!-- Nav é preenchida pelo JavaScript (updateNavigation) -->
+            <nav id="main-nav" class="flex space-x-4">
+                <!-- Links de navegação serão inseridos aqui pelo JS -->
+                <span class="text-sm">Carregando navegação...</span>
+            </nav>
+        </div>
     </header>
 
-<section class="anuncio-container">
-    <h2>Venda Seu Carro na LinkCar!</h2>
-    
-    <form id="anuncio-form" onsubmit="handleAnuncio(event)">
+    <!-- Conteúdo Principal - Seção de Anúncio -->
+    <section class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-8 border-b-4 border-blue-500 pb-2">
+            Venda Seu Carro na AutoFacil!
+        </h2>
         
-        <fieldset>
-            <legend>1. Dados Essenciais</legend>
-            <label for="marca">Marca:</label>
-            <input type="text" id="marca" required placeholder="Ex: Toyota">
-
-            <label for="modelo">Modelo:</label>
-            <input type="text" id="modelo" required placeholder="Ex: Corolla">
-
-            <label for="versao">Versão:</label>
-            <input type="text" id="versao" placeholder="Ex: XEi 2.0 (Opcional)">
-
-            <label for="ano_modelo">Ano de Fabricação/Modelo:</label>
-            <input type="text" id="ano_modelo" required placeholder="Ex: 2022/2023" [cite: 6]>
-
-            <label for="preco">Preço (R$):</label>
-            <input type="number" id="preco" step="any" required placeholder="Ex: 75000.00">
-
-            <label for="localizacao">Localização (Cidade/Estado):</label>
-            <input type="text" id="localizacao" required placeholder="Ex: São Paulo, SP">
-        </fieldset>
-        
-    <fieldset>
-        <legend>2. Ficha Técnica Básica</legend>
-    
-        <div class="field-group">
-        
-            <div class="field-item">
-                <label for="combustivel">Combustível:</label>
-                <select id="combustivel" required>
-                    <option value="">Selecione</option>
-                    <option value="Flex">Flex</option>
-                    <option value="Gasolina">Gasolina</option>
-                    <option value="Diesel">Diesel</option>
-                </select>
-            </div>
-
-            <div class="field-item">
-                <label for="litragem">Litragem/Motor (Opcional):</label>
-                <input type="text" id="litragem" placeholder="Ex: 1.0 ou 2.0 Turbo">
-            </div>
-        </div>
-
-        <div class="field-group">
-            <div class="field-item">
-                <label for="cambio_tipo">Tipo de Câmbio:</label>
-                <select id="cambio_tipo" required>
-                    <option value="">Selecione</option>
-                    <option value="manual">Manual</option>
-                    <option value="automatico">Automático</option>
-                    <option value="automatizado">Automatizado</option>
-                    </select>
-                </div>
-
-                <div class="field-item">
-                    <label for="tracao">Tração (Opcional):</label>
-                    <input type="text" id="tracao" placeholder="Ex: Dianteira ou 4x4">
-                </div>
-            </div>
-        </fieldset>
-
-        
-        <fieldset>
-            <legend>3. Acessórios e Descrição</legend>
+        <!-- Formulário de Anúncio -->
+        <form id="anuncio-form" class="bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-gray-100 space-y-8">
             
-            <label for="descricao">Descrição Completa do Veículo:</label>
-            <textarea id="descricao" rows="4" required placeholder="Ex: Único dono, todas as revisões em dia, nunca batido."></textarea>
+            <!-- Caixa de Mensagem para Feedback (Substitui alert()) -->
+            <div id="message-box" class="p-3 rounded-lg text-sm text-center hidden"></div>
 
-            <label for="seguranca">Itens de Segurança (Opcional):</label>
-            <textarea id="seguranca" rows="3" placeholder="Ex: 6 Airbags, ABS, ISOFIX..." [cite: 15]></textarea>
+            <!-- Fieldset 1: Dados Essenciais -->
+            <fieldset class="border border-gray-300 p-6 rounded-lg space-y-4">
+                <legend class="text-xl font-semibold text-gray-800 px-2">1. Dados Essenciais</legend>
+                
+                <div>
+                    <label for="marca" class="block text-sm font-medium text-gray-700 mb-1">Marca:</label>
+                    <input type="text" id="marca" required placeholder="Ex: Toyota" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                </div>
 
-            <label for="conforto">Itens de Conforto (Opcional):</label>
-            <textarea id="conforto" rows="3" placeholder="Ex: Ar Condicionado Digital, Bancos de Couro..." [cite: 16]></textarea>
+                <div>
+                    <label for="modelo" class="block text-sm font-medium text-gray-700 mb-1">Modelo:</label>
+                    <input type="text" id="modelo" required placeholder="Ex: Corolla" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                </div>
 
-            <label for="infotenimento">Itens de Infotenimento (Opcional):</label>
-            <textarea id="infotenimento" rows="3" placeholder="Ex: Central Multimídia 10 polegadas, Android Auto/CarPlay..." [cite: 17]></textarea>
-        </fieldset>
+                <div>
+                    <label for="versao" class="block text-sm font-medium text-gray-700 mb-1">Versão:</label>
+                    <input type="text" id="versao" placeholder="Ex: XEi 2.0 (Opcional)" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                </div>
 
-        <fieldset>
-            <legend>4. Fotos do Veículo</legend>
-            <p>Adicione fotos de alta qualidade (Mínimo de 3)</p>
-            <label for="fotos">Anexar Fotos:</label>
-            <input type="file" id="fotos" multiple accept="image/*" required>
-        </fieldset>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="ano_modelo" class="block text-sm font-medium text-gray-700 mb-1">Ano de Fabricação/Modelo:</label>
+                        <input type="text" id="ano_modelo" required placeholder="Ex: 2022/2023" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
 
-        <button type="submit">Publicar Anúncio</button>
-    </form>
-</section>
+                    <div>
+                        <label for="preco" class="block text-sm font-medium text-gray-700 mb-1">Preço (R$):</label>
+                        <input type="number" id="preco" step="any" required placeholder="Ex: 75000.00" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                </div>
 
-    <footer>
-        <p>&copy; 2025 LinkCar. Todos os direitos reservados.</p>
+                <div>
+                    <label for="localizacao" class="block text-sm font-medium text-gray-700 mb-1">Localização (Cidade/Estado):</label>
+                    <input type="text" id="localizacao" required placeholder="Ex: São Paulo, SP" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                </div>
+            </fieldset>
+            
+            <!-- Fieldset 2: Ficha Técnica Básica -->
+            <fieldset class="border border-gray-300 p-6 rounded-lg space-y-4">
+                <legend class="text-xl font-semibold text-gray-800 px-2">2. Ficha Técnica Básica</legend>
+            
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="combustivel" class="block text-sm font-medium text-gray-700 mb-1">Combustível:</label>
+                        <select id="combustivel" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                            <option value="">Selecione</option>
+                            <option value="Flex">Flex</option>
+                            <option value="Gasolina">Gasolina</option>
+                            <option value="Diesel">Diesel</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="litragem" class="block text-sm font-medium text-gray-700 mb-1">Litragem/Motor (Opcional):</label>
+                        <input type="text" id="litragem" placeholder="Ex: 1.0 ou 2.0 Turbo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="cambio_tipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Câmbio:</label>
+                        <select id="cambio_tipo" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                            <option value="">Selecione</option>
+                            <option value="manual">Manual</option>
+                            <option value="automatico">Automático</option>
+                            <option value="automatizado">Automatizado</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="tracao" class="block text-sm font-medium text-gray-700 mb-1">Tração (Opcional):</label>
+                        <input type="text" id="tracao" placeholder="Ex: Dianteira ou 4x4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Fieldset 3: Acessórios e Descrição -->
+            <fieldset class="border border-gray-300 p-6 rounded-lg space-y-4">
+                <legend class="text-xl font-semibold text-gray-800 px-2">3. Acessórios e Descrição</legend>
+                
+                <div>
+                    <label for="descricao" class="block text-sm font-medium text-gray-700 mb-1">Descrição Completa do Veículo:</label>
+                    <textarea id="descricao" rows="4" required placeholder="Ex: Único dono, todas as revisões em dia, nunca batido." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm"></textarea>
+                </div>
+
+                <div>
+                    <label for="seguranca" class="block text-sm font-medium text-gray-700 mb-1">Itens de Segurança (Opcional):</label>
+                    <textarea id="seguranca" rows="3" placeholder="Ex: 6 Airbags, ABS, ISOFIX..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm"></textarea>
+                </div>
+
+                <div>
+                    <label for="conforto" class="block text-sm font-medium text-gray-700 mb-1">Itens de Conforto (Opcional):</label>
+                    <textarea id="conforto" rows="3" placeholder="Ex: Ar Condicionado Digital, Bancos de Couro..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm"></textarea>
+                </div>
+
+                <div>
+                    <label for="infotenimento" class="block text-sm font-medium text-gray-700 mb-1">Itens de Infotenimento (Opcional):</label>
+                    <textarea id="infotenimento" rows="3" placeholder="Ex: Central Multimídia 10 polegadas, Android Auto/CarPlay..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm"></textarea>
+                </div>
+            </fieldset>
+
+            <!-- Fieldset 4: Fotos do Veículo -->
+            <fieldset class="border border-gray-300 p-6 rounded-lg space-y-4">
+                <legend class="text-xl font-semibold text-gray-800 px-2">4. Fotos do Veículo</legend>
+                <p class="text-gray-600 text-sm">Adicione fotos de alta qualidade (Mínimo de 3).</p>
+                <div>
+                    <label for="fotos" class="block text-sm font-medium text-gray-700 mb-1">Anexar Fotos:</label>
+                    <input type="file" id="fotos" multiple accept="image/*" required class="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                </div>
+            </fieldset>
+
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-lg transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-green-300 flex items-center justify-center">
+                <!-- Ícone de carro (Lucide) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.8-.7-1.5-1.5-1.5h-1.5"/><path d="M2 17h2"/><path d="M12 17v2"/><path d="M12 5v2"/><path d="M5 16v-3c0-1.7 1.3-3 3-3h12a3 3 0 0 1 3 3v3c0 1.7-1.3 3-3 3H8c-1.7 0-3-1.3-3-3Z"/><circle cx="7" cy="17" r="2"/><path d="M17 17h2c.6 0 1-.4 1-1v-3c0-.8-.7-1.5-1.5-1.5h-1.5"/></svg>
+                Publicar Anúncio
+            </button>
+        </form>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; <span id="current-year"></span> AutoFacil. Todos os direitos reservados.</p>
+        </div>
     </footer>
+    
+    <!-- Lógica JavaScript (Monolítica) -->
+    <script>
+        // --- FUNÇÃO DE FEEDBACK CUSTOMIZADA (Substitui alert() e confirm()) ---
+        function showMessage(message, type = 'info') {
+            const box = document.getElementById('message-box');
+            if (!box) {
+                console.warn("Elemento #message-box não encontrado.");
+                return;
+            }
+            box.textContent = message;
+            box.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-blue-100', 'text-blue-700');
+            
+            if (type === 'success') {
+                box.classList.add('bg-green-100', 'text-green-700');
+            } else if (type === 'error') {
+                box.classList.add('bg-red-100', 'text-red-700');
+            } else {
+                box.classList.add('bg-blue-100', 'text-blue-700');
+            }
+            box.classList.remove('hidden');
+        }
 
-    </body>
+        // --- GESTÃO DE ESTADO DE LOGIN (RF 1º) ---
+        function updateNavigation() {
+            const nav = document.getElementById('main-nav');
+            const loggedInUser = localStorage.getItem('loggedInUser'); 
+            
+            // Limpa a navegação atual
+            nav.innerHTML = ''; 
+            nav.classList.add('flex', 'space-x-4'); 
+
+            // Adiciona o link principal
+            nav.innerHTML += '<a href="index.html" class="hover:text-blue-200 transition duration-150">Página Inicial</a>';
+
+            if (loggedInUser) {
+                // Se o usuário está logado, mostra Anunciar e Perfil/Sair
+                nav.innerHTML += '<a href="anunciar.html" class="font-bold text-yellow-300 hover:text-yellow-400 transition duration-150">Anunciar</a>';
+                nav.innerHTML += '<a href="perfil.html" class="hover:text-blue-200 transition duration-150">Meu Perfil</a>';
+                nav.innerHTML += '<button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1 px-3 rounded-lg transition duration-200 shadow-md">Sair</button>';
+            } else {
+                // Se NÃO está logado, redirecionamos forçadamente nesta página
+                nav.innerHTML += '<a href="login.html" class="bg-yellow-400 text-blue-800 font-bold py-1 px-3 rounded-lg hover:bg-yellow-300 transition duration-150">Login/Cadastro</a>';
+            }
+        }
+        
+        // --- LÓGICA DE LOGOUT ---
+        function handleLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('loggedInUser'); 
+            showMessage('Você saiu da sua conta. Redirecionando...', 'info');
+            setTimeout(() => {
+                window.location.href = 'index.html'; 
+            }, 500);
+        }
+
+        // --- LÓGICA DE SIMULAÇÃO DE ANÚNCIO (RF 8º) ---
+        function handleAnuncio(event) {
+            event.preventDefault(); 
+            
+            // 0. VERIFICAÇÃO DE LOGIN
+            const loggedUserString = localStorage.getItem('loggedInUser');
+            if (!loggedUserString) {
+                showMessage("Erro: Você precisa estar logado para publicar um anúncio. Redirecionando para login...", 'error');
+                setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                return;
+            }
+            const user = JSON.parse(loggedUserString);
+
+            // 1. VALIDAÇÕES
+            const precoValue = document.getElementById('preco').value;
+            const precoFloat = parseFloat(precoValue);
+            if (isNaN(precoFloat) || precoFloat <= 0) {
+                showMessage("Erro de Validação: Por favor, insira um preço válido (apenas números positivos).", 'error');
+                return; 
+            }
+
+            const combustivelValue = document.getElementById('combustivel').value;
+            const cambioTipoValue = document.getElementById('cambio_tipo').value;
+
+            if (!combustivelValue || !cambioTipoValue) {
+                showMessage("Erro de Validação: Por favor, selecione o Combustível e o Tipo de Câmbio.", 'error');
+                return;
+            }
+            
+            // 2. COLETAR DADOS DO VEÍCULO (RF 8º)
+            const novoAnuncio = {
+                // Bloco 1: Identificação e Preço (Obrigatório)
+                id: Date.now(), // ID único
+                vendedorEmail: user.email.trim(), // E-mail do vendedor para filtrar no perfil
+                marca: document.getElementById('marca').value.trim(),
+                modelo: document.getElementById('modelo').value.trim(),
+                versao: document.getElementById('versao').value.trim() || 'Não Informado',
+                anoModelo: document.getElementById('ano_modelo').value.trim(),
+                preco: precoFloat, 
+                localizacao: document.getElementById('localizacao').value.trim(),
+                
+                // Bloco 2: Mecânica e Filtros
+                combustivel: combustivelValue,
+                litragem: document.getElementById('litragem').value.trim() || 'Não Informado',
+                cambioTipo: cambioTipoValue,
+                tracao: document.getElementById('tracao').value.trim() || 'Não Informado',
+
+                // Bloco 3: Acessórios e Descrição
+                descricao: document.getElementById('descricao').value.trim(),
+                seguranca: document.getElementById('seguranca').value.trim() || 'Não Informado',
+                conforto: document.getElementById('conforto').value.trim() || 'Não Informado',
+                infotenimento: document.getElementById('infotenimento').value.trim() || 'Não Informado',
+                
+                // Bloco 4: Fotos (Simulação)
+                // O ambiente não permite upload real, apenas simulamos a contagem
+                fotosCount: document.getElementById('fotos').files.length, 
+                status: 'Ativo',
+                dataPublicacao: new Date().toISOString()
+            };
+            
+            // Validação de fotos: o campo é "required", mas vamos dar um feedback melhor.
+            if (novoAnuncio.fotosCount === 0) {
+                showMessage("Erro de Validação: É obrigatório anexar no mínimo 3 fotos.", 'error');
+                return;
+            }
+
+            // 3. SALVAMENTO (usando localStorage para simular o Banco de Dados)
+            let anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
+            
+            // Adiciona o novo anúncio à lista
+            anuncios.push(novoAnuncio);
+
+            // Salva a lista atualizada de volta
+            localStorage.setItem('anuncios', JSON.stringify(anuncios));
+
+            // 4. Feedback e Redirecionamento
+            showMessage(`✅ Anúncio do ${novoAnuncio.marca} ${novoAnuncio.modelo} Publicado com Sucesso! Redirecionando para o seu Perfil...`, 'success');
+            
+            // Redireciona para a página de perfil
+            setTimeout(() => {
+                window.location.href = 'perfil.html';
+            }, 1000);
+        }
+
+        // --- INICIALIZAÇÃO E LISTENERS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Define o ano atual no rodapé
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // 2. Atualiza a navegação
+            updateNavigation();
+            
+            // 3. Adiciona listener para o botão de logout
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', handleLogout);
+            }
+
+            // 4. Adiciona listener de submissão para o formulário de anúncio
+            const anuncioForm = document.getElementById('anuncio-form');
+            if (anuncioForm) {
+                // Garante que a função de envio seja a que definimos no script
+                anuncioForm.addEventListener('submit', handleAnuncio);
+
+                // No caso de não estar logado, forçamos o redirecionamento ao carregar a página
+                if (!localStorage.getItem('loggedInUser')) {
+                    showMessage("Você precisa estar logado para anunciar um veículo. Redirecionando para login...", 'error');
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                }
+            }
+        });
+    </script>
+</body>
 </html>

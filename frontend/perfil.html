@@ -3,55 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkCar - Meu Perfil</title>
-    <link rel="stylesheet" href="css/style.css"> 
+    <title>AutoFacil - Meu Perfil</title>
+    <!-- Carregando Tailwind CSS CDN para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração da fonte Inter -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7; /* Fundo cinza claro */
+        }
+    </style>
 </head>
-<body>
-    
-    <header>
-        <h1>LinkCar</h1>
-        <nav>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Cabeçalho -->
+    <header class="bg-blue-600 shadow-md text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tight">AutoFacil</h1>
+            <!-- Nav é preenchida pelo JavaScript (updateNavigation) -->
+            <nav id="main-nav">
+                <!-- Links de navegação serão inseridos aqui pelo JS -->
+                <span class="text-sm">Carregando navegação...</span>
             </nav>
+        </div>
     </header>
 
-<section class="perfil-container">
-    <h2>Meu Perfil</h2>
-    
-    <div class="perfil-card info-pessoal">
-        <h3>Dados Pessoais</h3>
+    <!-- Conteúdo Principal - Seção Perfil -->
+    <section class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-8 border-b-4 border-blue-500 pb-2">
+            Meu Perfil
+        </h2>
         
-        <form id="perfil-form" onsubmit="handleProfileEdit(event)">
-            <label for="nome">Nome:</label> <input type="text" id="nome" required>
-    
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" required>
-    
-            <label for="senha">Nova Senha (deixe em branco para manter a atual):</label>
-            <input type="password" id="senha" placeholder="********">
-    
-            <button type="submit">Salvar Alterações</button>
-        </form>
-    </div>
-
-    <div class="perfil-card meus-anuncios">
-        <h3>Meus Anúncios</h3>
-        <p>Aqui você pode gerenciar os carros que estão à venda.</p>
-        
-        <a href="anunciar.html" class="new-ad-button">
-            + Anunciar Novo Veículo
-        </a>
-
-        <div class="user-ad-list">
-            <p class="ad-placeholder">Nenhum anúncio ativo. Publique seu primeiro carro!</p>
+        <!-- Layout Responsivo -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Card 1: Dados Pessoais (2/3 da largura no desktop) -->
+            <div class="lg:col-span-2 bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-gray-100">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                    <!-- Ícone de usuário (Lucide) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-3 text-blue-500"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Dados Pessoais
+                </h3>
+                
+                <!-- O form chama a função handleProfileEdit do JS -->
+                <form id="perfil-form">
+                    <div class="space-y-4">
+                        
+                        <div>
+                            <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome:</label>
+                            <input type="text" id="nome" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm">
+                        </div>
+            
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail:</label>
+                            <!-- Mantendo o e-mail desabilitado para simular um ID de usuário fixo -->
+                            <input type="email" id="email" required disabled class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed shadow-sm">
+                        </div>
+            
+                        <div>
+                            <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Nova Senha (deixe em branco para manter a atual):</label>
+                            <input type="password" id="senha" placeholder="********" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm">
+                        </div>
+                    </div>
+            
+                    <button type="submit" class="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-lg transform hover:scale-[1.01]">
+                        Salvar Alterações
+                    </button>
+                    
+                    <!-- Caixa de Mensagem para Feedback (Substitui alert()) -->
+                    <div id="message-box" class="mt-4 p-3 rounded-lg text-sm text-center hidden"></div>
+                </form>
             </div>
-    </div>
 
-</section>
+            <!-- Card 2: Meus Anúncios (1/3 da largura no desktop) -->
+            <div class="lg:col-span-1 bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-gray-100">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <!-- Ícone de carro (Lucide) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-3 text-blue-500"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.8-.7-1.5-1.5-1.5h-1.5"/><path d="M2 17h2"/><path d="M12 17v2"/><path d="M12 5v2"/><path d="M5 16v-3c0-1.7 1.3-3 3-3h12a3 3 0 0 1 3 3v3c0 1.7-1.3 3-3 3H8c-1.7 0-3-1.3-3-3Z"/><circle cx="7" cy="17" r="2"/><path d="M17 17h2c.6 0 1-.4 1-1v-3c0-.8-.7-1.5-1.5-1.5h-1.5"/></svg>
+                    Meus Anúncios
+                </h3>
+                
+                <p class="text-gray-600 mb-6">Aqui você pode gerenciar os carros que estão à venda.</p>
+                
+                <a href="anunciar.html" class="new-ad-button flex items-center justify-center w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-lg transform hover:scale-[1.01] mb-6">
+                    <!-- Ícone de mais (Lucide) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    Anunciar Novo Veículo
+                </a>
 
-    <footer>
-        <p>&copy; 2025 LinkCar. Todos os direitos reservados.</p>
+                <div id="user-ad-list" class="space-y-4">
+                    <!-- Anúncios serão carregados aqui pelo JS -->
+                    <p id="ad-placeholder" class="ad-placeholder text-center text-gray-500 italic p-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                        Nenhum anúncio ativo. Publique seu primeiro carro!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; <span id="current-year"></span> AutoFacil. Todos os direitos reservados.</p>
+        </div>
     </footer>
     
-    <script src="js/script.js"></script> 
+    <!-- Lógica JavaScript (LocalStorage) -->
+    <script>
+        // --- FUNÇÃO DE FEEDBACK CUSTOMIZADA (Substitui alert() e confirm()) ---
+        function showMessage(message, type = 'info') {
+            const box = document.getElementById('message-box');
+            if (!box) {
+                console.warn("Elemento #message-box não encontrado. Mensagem:", message);
+                return;
+            }
+            box.textContent = message;
+            box.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-blue-100', 'text-blue-700');
+            
+            if (type === 'success') {
+                box.classList.add('bg-green-100', 'text-green-700');
+            } else if (type === 'error') {
+                box.classList.add('bg-red-100', 'text-red-700');
+            } else {
+                box.classList.add('bg-blue-100', 'text-blue-700');
+            }
+        }
+        
+        // --- GESTÃO DE ESTADO DE LOGIN (RF 1º) ---
+        function updateNavigation() {
+            const nav = document.getElementById('main-nav');
+            const loggedInUser = localStorage.getItem('loggedInUser'); 
+            
+            // Limpa a navegação atual
+            nav.innerHTML = ''; 
+            nav.classList.add('flex', 'space-x-4'); // Adiciona classes Tailwind para o menu
+
+            // Adiciona o link principal
+            nav.innerHTML += '<a href="index.html" class="hover:text-blue-200 transition duration-150">Página Inicial</a>';
+
+            if (loggedInUser) {
+                // Se o usuário está logado, mostra Anunciar e Perfil/Sair
+                nav.innerHTML += '<a href="anunciar.html" class="hover:text-blue-200 transition duration-150">Anunciar</a>';
+                nav.innerHTML += '<a href="perfil.html" class="font-bold text-yellow-300 hover:text-yellow-400 transition duration-150">Meu Perfil</a>';
+                // Usamos um botão aqui para que o evento de clique funcione corretamente
+                nav.innerHTML += '<button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1 px-3 rounded-lg transition duration-200 shadow-md">Sair</button>';
+            } else {
+                // Se NÃO está logado, mostra as opções de Login/Cadastro
+                nav.innerHTML += '<a href="login.html" class="bg-yellow-400 text-blue-800 font-bold py-1 px-3 rounded-lg hover:bg-yellow-300 transition duration-150">Login/Cadastro</a>';
+            }
+        }
+
+        // --- LÓGICA DE LOGOUT (Corrigida) ---
+        function handleLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('loggedInUser'); // Remove o status de login
+            showMessage('Você saiu da sua conta. Redirecionando...', 'info');
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redireciona para a home
+            }, 500); // Dá tempo para o usuário ver a mensagem
+        }
+
+        // --- PREENCHIMENTO DO PERFIL (RF 2º) ---
+        function loadProfileData() {
+            const perfilForm = document.getElementById('perfil-form');
+            if (!perfilForm) return; 
+
+            const loggedInUserString = localStorage.getItem('loggedInUser');
+
+            if (loggedInUserString) {
+                const user = JSON.parse(loggedInUserString);
+                
+                // Preenche os campos (usando .trim() para garantir limpeza)
+                document.getElementById('nome').value = user.name.trim() || ''; 
+                document.getElementById('email').value = user.email.trim() || ''; 
+                
+                // Atualiza o título
+                const firstName = user.name.split(' ')[0];
+                document.querySelector('h2').textContent = `Meu Perfil - Olá, ${firstName}!`;
+                
+                // Carrega os anúncios específicos do usuário
+                loadUserAds(user.email.trim());
+
+            } else {
+                // Se não estiver logado, redireciona para o login
+                showMessage('Você precisa estar logado para acessar o perfil. Redirecionando...', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1000);
+            }
+        }
+
+        // --- LÓGICA DE EDIÇÃO DE PERFIL (RF 2º) ---
+        function handleProfileEdit(event) {
+            event.preventDefault(); 
+            const loggedUserString = localStorage.getItem('loggedInUser');
+            if (!loggedUserString) return;
+
+            // 1. Pega os novos valores e aplica .trim() para limpar
+            const newName = document.getElementById('nome').value.trim();
+            // O e-mail está disabled no HTML, mas pegamos o valor (que é o antigo) para re-salvar
+            const newEmail = document.getElementById('email').value.trim(); 
+            const newPassword = document.getElementById('senha').value;
+
+            // USAMOS .trim() AQUI
+            const oldEmail = JSON.parse(loggedUserString).email.trim(); 
+
+            // 3. Busca a lista completa de usuários (onde o usuário foi salvo no cadastro)
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // 4. Encontra o índice do usuário a ser atualizado
+            const userIndex = users.findIndex(user => user.email.trim() === oldEmail); 
+
+            if (userIndex !== -1) {
+                // Se encontrou o usuário:
+                
+                // a) Atualiza os dados
+                users[userIndex].name = newName;
+                // Nota: Manter a edição de e-mail desabilitada no HTML é mais seguro.
+                // Se o e-mail for alterado aqui, a chave de login muda para a próxima vez.
+                // users[userIndex].email = newEmail; 
+                
+                if (newPassword) {
+                    users[userIndex].password = newPassword;
+                }
+
+                // b) Salva a lista completa e o status de login atualizado
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem('loggedInUser', JSON.stringify({
+                    name: newName,
+                    email: users[userIndex].email // Mantém o e-mail que o usuário logou
+                }));
+
+                // Limpa o campo de senha
+                document.getElementById('senha').value = '';
+
+                showMessage('✅ Perfil atualizado com sucesso!', 'success');
+                
+                // Recarrega os dados do perfil para atualizar o título e o menu
+                loadProfileData(); 
+                updateNavigation();
+                
+            } else {
+                showMessage('Erro: Usuário não encontrado na base de dados para atualização.', 'error');
+            }
+        }
+
+        // --- LÓGICA DE CARREGAMENTO DE ANÚNCIOS DO USUÁRIO (RF 8º) ---
+        function loadUserAds(userEmail) {
+            const adListElement = document.getElementById('user-ad-list');
+            const adPlaceholder = document.getElementById('ad-placeholder');
+            adListElement.innerHTML = ''; // Limpa a lista atual
+
+            const allAnuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
+            
+            // Filtra anúncios pelo e-mail do vendedor (usuário logado)
+            const userAnuncios = allAnuncios.filter(anuncio => anuncio.vendedorEmail.trim() === userEmail);
+
+
+            if (userAnuncios.length === 0) {
+                adPlaceholder.classList.remove('hidden');
+                adListElement.appendChild(adPlaceholder);
+            } else {
+                adPlaceholder.classList.add('hidden');
+                
+                userAnuncios.forEach(ad => {
+                    const precoFormatado = ad.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                    const adCard = document.createElement('div');
+                    adCard.className = 'bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between items-center transition duration-150 hover:bg-gray-100';
+                    adCard.innerHTML = `
+                        <div class="mb-2 md:mb-0 md:w-3/4">
+                            <p class="font-semibold text-lg text-gray-800">${ad.marca} ${ad.modelo} (${ad.anoModelo})</p>
+                            <p class="text-sm text-gray-600">${precoFormatado} | ${ad.localizacao}</p>
+                            <p class="text-xs text-gray-500 mt-1">Status: ${ad.status}</p>
+                        </div>
+                        <div class="flex space-x-2 flex-shrink-0">
+                            <button data-id="${ad.id}" class="edit-ad-btn text-blue-500 hover:text-blue-700 p-2 rounded-full hover:bg-blue-100 transition duration-150" title="Editar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                            </button>
+                            <button data-id="${ad.id}" class="delete-ad-btn text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition duration-150" title="Excluir">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    `;
+                    adListElement.appendChild(adCard);
+                });
+                
+                // Adicionar listeners para botões de gerenciamento de anúncios
+                adListElement.querySelectorAll('.edit-ad-btn').forEach(btn => btn.addEventListener('click', handleEditAd));
+                adListElement.querySelectorAll('.delete-ad-btn').forEach(btn => btn.addEventListener('click', handleDeleteAd));
+            }
+        }
+        
+        // Simulação de edição e exclusão de anúncios
+        function handleEditAd(e) {
+            const adId = e.currentTarget.dataset.id;
+            showMessage(`Simulação: Iniciando edição do anúncio ID ${adId}. Redirecione para anunciar.html?id=${adId}`, 'info');
+        }
+
+        function handleDeleteAd(e) {
+            const adId = parseInt(e.currentTarget.dataset.id);
+            
+            // Em vez de alert/confirm, a lógica aqui é direta ou usaria um modal.
+            // Aqui, simulamos a ação no console e removemos do localStorage
+            
+            let anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
+            
+            // Filtra a lista, removendo o anúncio com o ID correspondente
+            const newAnuncios = anuncios.filter(ad => ad.id !== adId);
+            
+            if (newAnuncios.length < anuncios.length) {
+                localStorage.setItem('anuncios', JSON.stringify(newAnuncios));
+                showMessage(`Anúncio ID ${adId} excluído com sucesso! A lista será atualizada.`, 'success');
+                
+                // Força a recarga dos anúncios
+                const loggedInUserString = localStorage.getItem('loggedInUser');
+                if (loggedInUserString) {
+                    const user = JSON.parse(loggedInUserString);
+                    loadUserAds(user.email.trim());
+                }
+            } else {
+                 showMessage(`Erro: Anúncio ID ${adId} não encontrado para exclusão.`, 'error');
+            }
+        }
+
+        // --- INICIALIZAÇÃO E LISTENERS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Define o ano atual no rodapé
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // 1. Atualiza a navegação
+            updateNavigation();
+            
+            // 2. Carrega os dados do perfil e anúncios (que também verifica o login)
+            loadProfileData();
+
+            // 3. Adiciona listener de submissão para o formulário de perfil
+            const perfilForm = document.getElementById('perfil-form');
+            if (perfilForm) {
+                perfilForm.addEventListener('submit', handleProfileEdit);
+            }
+            
+            // 4. Adiciona listener para o botão de logout (AGORA FUNCIONA!)
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', handleLogout);
+            }
+        });
+    </script>
 </body>
 </html>

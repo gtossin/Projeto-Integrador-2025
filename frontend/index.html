@@ -3,60 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internet Motores - Venda e Compra de Automóveis</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>AutoFacil - Venda e Compra de Automóveis</title>
+    <!-- Carregando Tailwind CSS CDN para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <header>
-        <h1>Internet Motores</h1>
-            <nav>
-                <a href="index.html">Página Inicial</a>
-                <a href="anunciar.html">Anunciar</a> <a href="perfil.html">Meu Perfil</a> 
+    <!-- Cabeçalho (Atualizado pelo JS) -->
+    <header class="bg-blue-600 shadow-md text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tight">AutoFacil</h1>
+            <!-- ID "main-nav" para o JS injetar os links corretamente -->
+            <nav id="main-nav" class="flex space-x-4">
+                <span class="text-sm">Carregando navegação...</span>
             </nav>
+        </div>
     </header>
 
-<div class="advanced-filters">
-    <h3>Filtros Detalhados (RF 4º)</h3>
-    <form id="filter-form">
-        
-        <input type="text" id="city-state" placeholder="Cidade/Estado (Ex: São Paulo, SP)">
-        
-        <div class="filter-selects-row">
+    <!-- Filtros Detalhados (Advanced Filters) -->
+    <div class="bg-white shadow-xl max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mt-8 rounded-xl border border-gray-100">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+            Filtros Detalhados (RF 4º)
+        </h3>
+        <form id="filter-form" class="space-y-4">
             
-            <select id="fabricante">
-                <option value="">Fabricante (Todos)</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Honda">Honda</option>
-                <option value="Chevrolet">Chevrolet</option>
-            </select>
+            <!-- Campo de Localização -->
+            <input type="text" id="city-state" placeholder="Cidade/Estado (Ex: São Paulo, SP)" 
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+            
+            <!-- Linha de Selects (Grid responsivo) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                
+                <select id="fabricante" class="p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    <option value="">Fabricante (Todos)</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                </select>
 
-            <select id="ano-fab">
-                <option value="">Ano (Todos)</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2019">2019</option>
-            </select>
+                <select id="ano-fab" class="p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    <option value="">Ano (Todos)</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2019">2019</option>
+                </select>
 
-            <select id="cambio">
-                <option value="">Câmbio (Todos)</option>
-                <option value="manual">Manual</option>
-                <option value="automatico">Automático</option>
-            </select>
+                <select id="cambio" class="p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    <option value="">Câmbio (Todos)</option>
+                    <option value="manual">Manual</option>
+                    <option value="automatico">Automático</option>
+                </select>
+                 <!-- Select de placeholder para completar o grid no desktop -->
+                 <div></div> 
+            </div> 
+            
+            <!-- Botão de Aplicar -->
+            <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md transform hover:scale-[1.01]">
+                Aplicar Filtros
+            </button>
 
-        </div> <button type="submit">Aplicar Filtros</button>
-    </form>
-</div>
+            <!-- Caixa de Mensagem para Feedback (Substitui alert() no filtro) -->
+            <div id="message-box" class="mt-4 p-3 rounded-lg text-sm text-center hidden"></div>
 
-    <section class="vehicle-list">
-        <h3>Veículos em Destaque</h3>
-    </section>
+        </form>
+    </div>
 
-    <footer>
-        <p>&copy; 2025 Internet Motores. Todos os direitos reservados.</p>
+    <!-- Lista de Veículos -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <section id="vehicle-list-section">
+            <h3 id="list-title" class="text-3xl font-extrabold text-gray-900 mb-6">
+                Veículos em Destaque
+            </h3>
+            
+            <!-- Grid de Cards de Veículos -->
+            <div id="vehicle-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards de veículos serão injetados aqui -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 AutoFacil. Todos os direitos reservados.</p>
+        </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- Lógica JavaScript (Monolítica) -->
+    <script>
+        // --- FUNÇÃO DE FEEDBACK CUSTOMIZADA (Substitui alert()) ---
+        function showMessage(message, type = 'info') {
+            const box = document.getElementById('message-box');
+            if (!box) {
+                console.warn("Elemento #message-box não encontrado.");
+                return;
+            }
+            box.textContent = message;
+            box.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-green-100', 'text-green-700', 'bg-blue-100', 'text-blue-700');
+            
+            if (type === 'success') {
+                box.classList.add('bg-green-100', 'text-green-700');
+            } else if (type === 'error') {
+                box.classList.add('bg-red-100', 'text-red-700');
+            } else {
+                box.classList.add('bg-blue-100', 'text-blue-700');
+            }
+            box.classList.remove('hidden');
+        }
 
+        // Base64 SVG Placeholder (Retângulo azul com texto "AutoFacil")
+        const BASE64_PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiB2aWV3Qm94PSIwIDAgNDAwIDI1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiIGZpbGw9IiMzQjgyRjYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IndoaXRlIj5MSU5LQ0FSPC90ZXh0Pjwvc3ZnPg==';
+
+        // --- SIMULAÇÃO DO BANCO DE DADOS (Requisito 8º) ---
+        // Dados Hardcoded para a página inicial. A URL de foto agora é o placeholder.
+        const veiculos = [
+            {
+                id: 1,
+                marca: "Toyota",
+                modelo: "Corolla",
+                ano: 2022,
+                preco: 120000,
+                localizacao: "São Paulo, SP",
+                descricao: "Carro em ótimo estado, baixa quilometragem.",
+                foto: BASE64_PLACEHOLDER, // Usando o Base64
+                fabricante: "Toyota",
+                cambio: "automatico"
+            },
+            {
+                id: 2,
+                marca: "Honda",
+                modelo: "Civic",
+                ano: 2019,
+                preco: 95000,
+                localizacao: "Campinas, SP",
+                descricao: "Completo e com todas as revisões em dia.",
+                foto: BASE64_PLACEHOLDER, // Usando o Base64
+                fabricante: "Honda",
+                cambio: "manual"
+            },
+            {
+                id: 3,
+                marca: "Chevrolet",
+                modelo: "Onix",
+                ano: 2023,
+                preco: 75000,
+                localizacao: "Rio de Janeiro, RJ",
+                descricao: "Seminovo, econômico e ideal para a cidade.",
+                foto: BASE64_PLACEHOLDER, // Usando o Base64
+                fabricante: "Chevrolet",
+                cambio: "manual"
+            }
+            // Adicione mais veículos de teste se desejar...
+        ];
+
+        // --- FUNÇÃO PARA RENDERIZAR OS VEÍCULOS (RF 6º) ---
+        function renderizarVeiculos(listaDeVeiculos) {
+            const listaHtml = document.getElementById('vehicle-list');
+            listaHtml.innerHTML = ''; // Limpa a lista antes de adicionar novos
+            
+            if (!listaHtml) return;
+
+            if (listaDeVeiculos.length === 0) {
+                listaHtml.innerHTML = '<p class="text-center col-span-full py-8 text-gray-500 italic">Nenhum veículo encontrado para esta busca.</p>';
+                return;
+            }
+
+            listaDeVeiculos.forEach(veiculo => {
+                // Cria um card para cada veículo
+                const card = document.createElement('div');
+                card.classList.add('bg-white', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'hover:shadow-2xl', 'transition', 'duration-300');
+                
+                // Formata o preço para o padrão brasileiro
+                const precoFormatado = veiculo.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                // Conteúdo do card
+                card.innerHTML = `
+                    <img src="${veiculo.foto}" alt="${veiculo.marca} ${veiculo.modelo}" 
+                         class="w-full h-40 object-cover">
+                    
+                    <div class="p-5">
+                        <h4 class="text-xl font-bold text-gray-900 truncate">${veiculo.marca} ${veiculo.modelo}</h4>
+                        <p class="text-sm text-gray-500 mb-3">${veiculo.ano}</p>
+                        
+                        <p class="price text-2xl font-extrabold text-blue-600 mb-2">${precoFormatado}</p>
+                        <p class="location text-sm text-gray-600 flex items-center mb-4">
+                            <!-- Ícone de localização -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 text-red-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            ${veiculo.localizacao}
+                        </p>
+                        <p class="description text-sm text-gray-700 italic mb-4">
+                            ${veiculo.descricao.substring(0, 70)}...
+                        </p>
+
+                        <button data-id="${veiculo.id}" class="details-button w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">
+                            Ver Detalhes
+                        </button>
+                    </div>
+                `;
+                
+                // Adiciona o card ao container
+                listaHtml.appendChild(card);
+            });
+            
+            // Adiciona listener para o botão de Detalhes
+            listaHtml.querySelectorAll('.details-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const veiculoId = e.currentTarget.dataset.id;
+                    // Simulação: Apenas mostra uma mensagem
+                    showMessage(`Simulação: Você clicou nos detalhes do Veículo ID: ${veiculoId}.`, 'info');
+                });
+            });
+        }
+        
+        // --- GESTÃO DE ESTADO DE LOGIN (RF 1º) ---
+        function updateNavigation() {
+            const nav = document.getElementById('main-nav');
+            if (!nav) return;
+            
+            const loggedInUser = localStorage.getItem('loggedInUser'); 
+            
+            // Limpa a navegação atual
+            nav.innerHTML = ''; 
+            nav.classList.add('flex', 'space-x-4'); // Classes Tailwind para o menu
+
+            // Adiciona o link principal
+            nav.innerHTML += '<a href="index.html" class="font-bold text-yellow-300 hover:text-yellow-400 transition duration-150">Página Inicial</a>';
+
+            if (loggedInUser) {
+                // Se o usuário está logado
+                nav.innerHTML += '<a href="anunciar.html" class="hover:text-blue-200 transition duration-150">Anunciar</a>';
+                nav.innerHTML += '<a href="perfil.html" class="hover:text-blue-200 transition duration-150">Meu Perfil</a>';
+                // O botão de Sair é importante para o ambiente de testes!
+                nav.innerHTML += '<button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1 px-3 rounded-lg transition duration-200 shadow-md">Sair</button>';
+            } else {
+                // Se NÃO está logado
+                nav.innerHTML += '<a href="login.html" class="bg-yellow-400 text-blue-800 font-bold py-1 px-3 rounded-lg hover:bg-yellow-300 transition duration-150">Login/Cadastro</a>';
+            }
+            
+            // Adiciona a lógica de logout ao botão recém-criado
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('loggedInUser'); // Remove o status de login
+                    // Usando a função customizada para feedback
+                    showMessage('Você saiu da sua conta. Redirecionando...', 'info');
+                    // Redireciona após um pequeno atraso
+                    setTimeout(() => { window.location.href = 'index.html'; }, 500); 
+                });
+            }
+        }
+
+        // --- LÓGICA DE FILTRO UNIFICADA (RF 4º e Localidade) ---
+        function applyFilters(event) {
+            event.preventDefault(); 
+            
+            // 1. Pega os valores selecionados nos filtros:
+            const localidadeSelecionada = document.getElementById('city-state').value.toLowerCase().trim();
+            const fabricanteSelecionado = document.getElementById('fabricante').value;
+            const anoElement = document.getElementById('ano-fab');
+            // Converte para número ou mantém vazio se não selecionado
+            const anoSelecionado = anoElement.value ? parseInt(anoElement.value) : ''; 
+            const cambioSelecionado = document.getElementById('cambio').value;
+
+            // Filtra a lista de veículos
+            const resultadosFiltrados = veiculos.filter(veiculo => {
+                let passaNoFiltro = true;
+
+                // CRITÉRIO 1: Localidade (Deve conter o termo)
+                if (localidadeSelecionada && !veiculo.localizacao.toLowerCase().includes(localidadeSelecionada)) {
+                    passaNoFiltro = false;
+                }
+
+                // CRITÉRIO 2: Fabricante (Deve ser igual, se selecionado)
+                if (fabricanteSelecionado && veiculo.fabricante !== fabricanteSelecionado) {
+                    passaNoFiltro = false;
+                }
+
+                // CRITÉRIO 3: Ano (Deve ser igual, se selecionado)
+                if (anoSelecionado !== '' && veiculo.ano !== anoSelecionado) {
+                    passaNoFiltro = false;
+                }
+
+                // CRITÉRIO 4: Câmbio (Deve ser igual, se selecionado)
+                if (cambioSelecionado && veiculo.cambio !== cambioSelecionado) {
+                    passaNoFiltro = false;
+                }
+
+                return passaNoFiltro;
+            });
+
+            // Exibe os resultados
+            renderizarVeiculos(resultadosFiltrados);
+            document.getElementById('list-title').textContent = `Resultados da Busca Detalhada (${resultadosFiltrados.length} encontrados)`;
+            
+            // Feedback do Filtro
+            if (resultadosFiltrados.length === veiculos.length) {
+                showMessage("Filtros aplicados. Mostrando todos os veículos disponíveis.", 'info');
+            } else if (resultadosFiltrados.length > 0) {
+                 showMessage(`Encontrados ${resultadosFiltrados.length} veículos que correspondem aos seus critérios!`, 'success');
+            } else {
+                 showMessage("Nenhum veículo corresponde aos seus critérios de busca.", 'error');
+            }
+        }
+
+        // --- INICIALIZAÇÃO ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. ATUALIZA O MENU DE NAVEGAÇÃO
+            updateNavigation();
+            
+            // 2. RENDERIZA TODOS OS VEÍCULOS NO CARREGAMENTO INICIAL
+            renderizarVeiculos(veiculos); 
+            
+            // 3. ADICIONA O LISTENER DE SUBMISSÃO DO FORMULÁRIO DE FILTRO
+            const filterForm = document.getElementById('filter-form');
+            if (filterForm) { 
+                filterForm.addEventListener('submit', applyFilters);
+            }
+        });
+    </script>
 </body>
 </html>
