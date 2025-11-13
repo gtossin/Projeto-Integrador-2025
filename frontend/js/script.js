@@ -1,476 +1,479 @@
-// SIMULAÇÃO DO BANCO DE DADOS (Requisito 8º)
-// Os dados devem ter: Marca, Modelo, Ano, Preço, Localização e Fotos.
-// SIMULAÇÃO DO BANCO DE DADOS (Requisito 8º)
+// ======================================================================
+// SIMULAÇÃO DO BANCO DE DADOS (FRONT-END)
+// Requisito Funcional (RF 8º): Estrutura de dados básica para veículos.
+// Os dados devem conter: Marca, Modelo, Ano, Preço, Localização e Foto.
+// ======================================================================
 const veiculos = [
-    {
-        id: 1,
-        marca: "Toyota",
-        modelo: "Corolla",
-        ano: 2022,
-        preco: 120000,
-        localizacao: "São Paulo, SP",
-        descricao: "Carro em ótimo estado, baixa quilometragem.",
-        foto: "carro1.jpg",
-        fabricante: "Toyota", // NOVO
-        cambio: "automatico"  // NOVO
-    },
-    {
-        id: 2,
-        marca: "Honda",
-        modelo: "Civic",
-        ano: 2019,
-        preco: 95000,
-        localizacao: "Campinas, SP",
-        descricao: "Completo e com todas as revisões em dia.",
-        foto: "carro2.jpg",
-        fabricante: "Honda",  // NOVO
-        cambio: "manual"     // NOVO
-    },
-    {
-        id: 3,
-        marca: "Chevrolet",
-        modelo: "Onix",
-        ano: 2023,
-        preco: 75000,
-        localizacao: "Rio de Janeiro, RJ",
-        descricao: "Seminovo, econômico e ideal para a cidade.",
-        foto: "carro3.jpg",
-        fabricante: "Chevrolet", // NOVO
-        cambio: "manual"       // NOVO
-    }
-    // Adicione mais veículos de teste se desejar, com diferentes fabricantes/câmbios
+    {
+        id: 1,
+        marca: "Toyota",
+        modelo: "Corolla",
+        ano: 2022,
+        preco: 120000,
+        localizacao: "São Paulo, SP",
+        descricao: "Carro em ótimo estado, baixa quilometragem.",
+        foto: "carro1.jpg",
+        fabricante: "Toyota", 
+        cambio: "automatico"  
+    },
+    {
+        id: 2,
+        marca: "Honda",
+        modelo: "Civic",
+        ano: 2019,
+        preco: 95000,
+        localizacao: "Campinas, SP",
+        descricao: "Completo e com todas as revisões em dia.",
+        foto: "carro2.jpg",
+        fabricante: "Honda",  
+        cambio: "manual"     
+    },
+    {
+        id: 3,
+        marca: "Chevrolet",
+        modelo: "Onix",
+        ano: 2023,
+        preco: 75000,
+        localizacao: "Rio de Janeiro, RJ",
+        descricao: "Seminovo, econômico e ideal para a cidade.",
+        foto: "carro3.jpg",
+        fabricante: "Chevrolet", 
+        cambio: "manual"       
+    }
+    // Incluir mais veículos de teste para simulação.
 ];
 // ... restante do script.js
 
-// Função para renderizar os veículos na página
+// ----------------------------------------------------------------------
+// RENDERIZAÇÃO E EXIBIÇÃO DE ANÚNCIOS (RF 6º)
+// ----------------------------------------------------------------------
+/**
+ * Função para renderizar os veículos na lista principal da página.
+ * @param {Array<Object>} listaDeVeiculos - Lista de veículos a serem exibidos.
+ */
 function renderizarVeiculos(listaDeVeiculos) {
-    const listaHtml = document.querySelector('.vehicle-list');
-    listaHtml.innerHTML = ''; // Limpa a lista antes de adicionar novos
+    const listaHtml = document.querySelector('.vehicle-list');
+    // Limpa o conteúdo anterior da lista
+    listaHtml.innerHTML = ''; 
 
-    if (listaDeVeiculos.length === 0) {
-        listaHtml.innerHTML = '<p>Nenhum veículo encontrado para esta busca.</p>';
-        return;
-    }
+    // Exibe mensagem se nenhum veículo for encontrado
+    if (listaDeVeiculos.length === 0) {
+        listaHtml.innerHTML = '<p>Nenhum veículo encontrado para esta busca.</p>';
+        return;
+    }
 
-    listaDeVeiculos.forEach(veiculo => {
-        // Cria um card para cada veículo
-        const card = document.createElement('div');
-        card.classList.add('vehicle-card');
-        
-        // Formata o preço para o padrão brasileiro
-        const precoFormatado = veiculo.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    listaDeVeiculos.forEach(veiculo => {
+        // 1. Cria o elemento principal do card
+        const card = document.createElement('div');
+        card.classList.add('vehicle-card');
+        
+        // 2. Formata o preço para o padrão brasileiro (R$ 00,00)
+        const precoFormatado = veiculo.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-        // Conteúdo do card (Requisito 6º: fotos, preços e descrição)
-        card.innerHTML = `
-            <img src="img/${veiculo.foto}" alt="${veiculo.marca} ${veiculo.modelo}">
-            <h4>${veiculo.marca} ${veiculo.modelo} (${veiculo.ano})</h4>
-            <p class="price">${precoFormatado}</p>
-            <p class="location">${veiculo.localizacao}</p>
-            <p class="description">${veiculo.descricao.substring(0, 50)}...</p>
-            <button onclick="alert('Detalhes do Veículo ID: ${veiculo.id}')">Ver Detalhes</button>
-        `;
-        
-        listaHtml.appendChild(card);
-    });
+        // 3. Monta o conteúdo do card (incluindo foto, preço e descrição - RF 6º)
+        card.innerHTML = `
+            <img src="img/${veiculo.foto}" alt="${veiculo.marca} ${veiculo.modelo}">
+            <h4>${veiculo.marca} ${veiculo.modelo} (${veiculo.ano})</h4>
+            <p class="price">${precoFormatado}</p>
+            <p class="location">${veiculo.localizacao}</p>
+            <p class="description">${veiculo.descricao.substring(0, 50)}...</p>
+            <button onclick="alert('Detalhes do Veículo ID: ${veiculo.id}')">Ver Detalhes</button>
+        `;
+        
+        // 4. Adiciona o card à lista
+        listaHtml.appendChild(card);
+    });
 }
 
 // ----------------------------------------------------------------------
-// GESTÃO DE ESTADO DE LOGIN (RF 1º)
+// GESTÃO DE ESTADO DE LOGIN E LOGOUT (RF 1º)
 // ----------------------------------------------------------------------
 
+/**
+ * Atualiza o menu de navegação com base no estado de login do usuário.
+ */
 function updateNavigation() {
-    const nav = document.querySelector('header nav');
-    // Verifica se há algum usuário logado no localStorage
-    const loggedInUser = localStorage.getItem('loggedInUser'); 
-    
-    // Limpa a navegação atual
-    nav.innerHTML = ''; 
+    const nav = document.querySelector('header nav');
+    // Verifica o status de login no armazenamento local
+    const loggedInUser = localStorage.getItem('loggedInUser'); 
+    
+    // Limpa o conteúdo de navegação atual
+    nav.innerHTML = ''; 
 
-    // Adiciona o link principal
-    nav.innerHTML += '<a href="index.html">Página Inicial</a>';
+    // Adiciona o link de Página Inicial (sempre visível)
+    nav.innerHTML += '<a href="index.html">Página Inicial</a>';
 
-    if (loggedInUser) {
-        // Se o usuário está logado, mostra Anunciar e Perfil/Sair
-        nav.innerHTML += '<a href="anunciar.html">Anunciar</a>';
-        nav.innerHTML += '<a href="perfil.html">Meu Perfil</a>';
-        nav.innerHTML += '<a href="#" id="logout-button">Sair</a>';
-    } else {
-        // Se NÃO está logado, mostra as opções de Login/Cadastro
-        nav.innerHTML += '<a href="login.html">Login/Cadastro</a>';
-    }
+    if (loggedInUser) {
+        // Se o usuário está logado, exibe opções de Vendedor/Perfil
+        nav.innerHTML += '<a href="anunciar.html">Anunciar</a>';
+        nav.innerHTML += '<a href="perfil.html">Meu Perfil</a>';
+        nav.innerHTML += '<a href="#" id="logout-button">Sair</a>';
+    } else {
+        // Se não está logado, exibe opções de Acesso
+        nav.innerHTML += '<a href="login.html">Login/Cadastro</a>';
+    }
 }
 
-// Adicionar a lógica de sair (logout)
+// Lógica para o botão de Sair (Logout)
 const logoutButton = document.getElementById('logout-button');
 if (logoutButton) {
-    logoutButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('loggedInUser'); // Remove o status de login
-        alert('Você saiu da sua conta.');
-        window.location.href = 'index.html'; // Redireciona para a home
-    });
+    logoutButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('loggedInUser'); // Remove o token/status de login
+        alert('Você saiu da sua conta.');
+        window.location.href = 'index.html'; // Redireciona
+    });
 }
 
-// ... (Restante do seu script.js, incluindo filtros e cadastro)
+// ... (Restante do seu script.js)
 
 // ----------------------------------------------------------------------
-// LÓGICA DE FILTRO UNIFICADA (RF 4º e Localidade) - CORRIGIDA
+// LÓGICA DE FILTRO UNIFICADA (RF 4º e RF 3º - Localidade)
 // ----------------------------------------------------------------------
 const filterForm = document.getElementById('filter-form');
 
-// 🎯 AGORA SÓ ADICIONA O LISTENER SE O FORMULÁRIO EXISTIR NA PÁGINA 🎯
+// Adiciona o listener de submissão APENAS se o formulário existir na página
 if (filterForm) { 
-    filterForm.addEventListener('submit', function(event) {
-        event.preventDefault(); 
+    filterForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
 
-        // Pega os valores selecionados nos filtros:
-        
-        // 1. Localidade (NOVO: Agora unificado!)
-        const localidadeSelecionada = document.getElementById('city-state').value.toLowerCase();
-        
-        // 2. Fabricante
-        const fabricanteSelecionado = document.getElementById('fabricante').value;
+        // 1. Coleta e normaliza os valores dos filtros:
+        
+        // Localidade (RF 3º)
+        const localidadeSelecionada = document.getElementById('city-state').value.toLowerCase();
+        
+        // Fabricante (RF 4º)
+        const fabricanteSelecionado = document.getElementById('fabricante').value;
 
-        // 3. Ano (Tratamento para evitar problemas com NaN)
-        const anoElement = document.getElementById('ano-fab');
-        const anoSelecionado = anoElement.value ? parseInt(anoElement.value) : ''; 
-        
-        // 4. Câmbio
-        const cambioSelecionado = document.getElementById('cambio').value;
+        // Ano (Tratamento de valor nulo/inválido)
+        const anoElement = document.getElementById('ano-fab');
+        const anoSelecionado = anoElement.value ? parseInt(anoElement.value) : ''; 
+        
+        // Câmbio (RF 4º)
+        const cambioSelecionado = document.getElementById('cambio').value;
 
-        // Filtra a lista de veículos, exigindo que o carro passe em TODOS os critérios
-        const resultadosFiltrados = veiculos.filter(veiculo => {
-            let passaNoFiltro = true;
+        // 2. Filtra a lista de veículos (todos os critérios devem ser TRUE)
+        const resultadosFiltrados = veiculos.filter(veiculo => {
+            let passaNoFiltro = true;
 
-            // CRITÉRIO 1: Localidade
-            // Se algo foi digitado E a localização do veículo não contém o termo digitado, o filtro falha.
-            if (localidadeSelecionada && !veiculo.localizacao.toLowerCase().includes(localidadeSelecionada)) {
-                passaNoFiltro = false;
-            }
+            // CRITÉRIO A: Localidade (Busca parcial)
+            if (localidadeSelecionada && !veiculo.localizacao.toLowerCase().includes(localidadeSelecionada)) {
+                passaNoFiltro = false;
+            }
 
-            // CRITÉRIO 2: Fabricante
-            // Se um fabricante foi selecionado E não for igual ao do veículo, o filtro falha.
-            if (fabricanteSelecionado && veiculo.fabricante !== fabricanteSelecionado) {
-                passaNoFiltro = false;
-            }
+            // CRITÉRIO B: Fabricante (Busca por valor exato)
+            if (fabricanteSelecionado && veiculo.fabricante !== fabricanteSelecionado) {
+                passaNoFiltro = false;
+            }
 
-            // CRITÉRIO 3: Ano
-            // Se um ano foi selecionado E não for igual ao do veículo, o filtro falha.
-            if (anoSelecionado !== '' && veiculo.ano !== anoSelecionado) {
-                passaNoFiltro = false;
-            }
+            // CRITÉRIO C: Ano (Busca por valor exato)
+            if (anoSelecionado !== '' && veiculo.ano !== anoSelecionado) {
+                passaNoFiltro = false;
+            }
 
-            // CRITÉRIO 4: Câmbio
-            if (cambioSelecionado && veiculo.cambio !== cambioSelecionado) {
-                passaNoFiltro = false;
-            }
+            // CRITÉRIO D: Câmbio (Busca por valor exato)
+            if (cambioSelecionado && veiculo.cambio !== cambioSelecionado) {
+                passaNoFiltro = false;
+            }
 
-            return passaNoFiltro;
-        });
+            return passaNoFiltro;
+        });
 
-        // Exibe os resultados
-        renderizarVeiculos(resultadosFiltrados);
-        document.querySelector('.vehicle-list h3').textContent = "Resultados da Busca Detalhada";
-    });
+        // 3. Exibe os resultados na tela
+        renderizarVeiculos(resultadosFiltrados);
+        document.querySelector('.vehicle-list h3').textContent = "Resultados da Busca Detalhada";
+    });
 }
 
 // ----------------------------------------------------------------------
-// SIMULAÇÃO DE CADASTRO (RF 1º)
+// SIMULAÇÃO DE CADASTRO DE USUÁRIO (RF 1º)
 // ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-// SIMULAÇÃO DE CADASTRO (RF 1º) - Função Chamável pelo HTML
-// ----------------------------------------------------------------------
+/**
+ * Lida com a submissão do formulário de cadastro, simulando a criação de um novo usuário.
+ * @param {Event} event - O evento de submissão do formulário.
+ */
 function handleCadastro(event) {
-    // ESSA É A CHAVE! O HTML chama esta função, e ela impede o submit padrão.
-    event.preventDefault(); 
+    // Impede o comportamento padrão de envio do formulário (que recarregaria a página)
+    event.preventDefault(); 
 
-    // 1. Pega os valores dos campos (do cadastro.html)
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+    // 1. Coleta os valores dos campos
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
 
-    // 2. Validação básica (Senhas são iguais?)
-    if (password !== confirmPassword) {
-        alert('Erro: As senhas digitadas não são iguais. Por favor, tente novamente.');
-        return; // Interrompe o processo
-    }
-    
-    // 3. Simulação de salvamento em "Banco de Dados" (usando localStorage)
-    
-    // CUIDADO: Em um projeto real, senhas NUNCA devem ser salvas em texto puro!
-    const novoUsuario = {
-        name: name,
-        email: email,
-        password: password // Simulação, apenas para fins de teste Front-end
-    };
+    // 2. Validação: Checa se as senhas coincidem
+    if (password !== confirmPassword) {
+        alert('Erro: As senhas digitadas não são iguais. Por favor, tente novamente.');
+        return; // Interrompe
+    }
+    
+    // 3. Monta o objeto do novo usuário
+    // NOTA: Em um projeto real, senhas NUNCA devem ser salvas em texto puro!
+    const novoUsuario = {
+        name: name,
+        email: email,
+        password: password // Simulação para fins de teste Front-end
+    };
 
-    // 4. Salvar no localStorage:
+    // 4. Lógica de "salvamento" no localStorage (simulando um Banco de Dados)
+    // a) Tenta carregar a lista de usuários existente
+    let users = JSON.parse(localStorage.getItem('users')) || [];
 
-    // a) Tenta buscar a lista de usuários existente, ou inicia uma nova
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    // b) Verifica se o e-mail já existe
+    const userExists = users.some(user => user.email === email);
+    if (userExists) {
+        alert('Erro: Este e-mail já está cadastrado. Tente fazer login.');
+        return;
+    }
 
-    // b) Verifica se o e-mail já está cadastrado
-    const userExists = users.some(user => user.email === email);
-    if (userExists) {
-        alert('Erro: Este e-mail já está cadastrado. Tente fazer login.');
-        return;
-    }
+    // c) Adiciona o novo usuário
+    users.push(novoUsuario);
 
-    // c) Adiciona o novo usuário à lista
-    users.push(novoUsuario);
+    // d) Salva a lista atualizada
+    localStorage.setItem('users', JSON.stringify(users));
 
-    // d) Salva a lista atualizada de volta no localStorage
-    localStorage.setItem('users', JSON.stringify(users));
+    alert('🎉 Cadastro realizado com sucesso! Faça login para continuar.');
 
-    alert('🎉 Cadastro realizado com sucesso! Faça login para continuar.');
-
-    // Redireciona para a tela de login
-    window.location.href = 'login.html';
+    // 5. Redireciona
+    window.location.href = 'login.html';
 }
 
 // ----------------------------------------------------------------------
-// SIMULAÇÃO DE LOGIN (RF 1º)
+// SIMULAÇÃO DE LOGIN DE USUÁRIO (RF 1º)
 // ----------------------------------------------------------------------
+/**
+ * Lida com a submissão do formulário de login, simulando a autenticação.
+ * @param {Event} event - O evento de submissão do formulário.
+ */
 function handleLogin(event) {
-event.preventDefault(); 
-
-    // 1. Pega os valores e remove espaços extras com .trim()
-    const email = document.getElementById('email').value.trim(); 
-    const password = document.getElementById('password').value; // Senha não precisa de trim
-
-    // 2. Tenta buscar a lista de usuários
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-
-    // 3. Busca o usuário que corresponde. CRUCIAL: usa .trim() no e-mail do cadastro também!
-    const foundUser = users.find(user => 
-        // Compara o e-mail digitado com o e-mail SALVO (com .trim() para limpar)
-        user.email.trim() === email && user.password === password
-    );
-
-    if (foundUser) {
-        // Se o usuário foi encontrado:
-
-        // Salva o status de login no localStorage (simulando a sessão)
-        // Guardamos o nome e email do usuário logado para usar no Perfil
-        localStorage.setItem('loggedInUser', JSON.stringify({
-            name: foundUser.name,
-            email: foundUser.email
-        }));
-
-        alert(`🎉 Login realizado com sucesso, ${foundUser.name}!`);
-
-        // Redireciona para a página inicial
-        window.location.href = 'index.html';
-    } else {
-        // Se o usuário não foi encontrado:
-        alert('Erro: E-mail ou senha incorretos. Tente novamente.');
-    }
-}
-
-
-// ----------------------------------------------------------------------
-// PREENCHIMENTO DO PERFIL (RF 2º) - CORRIGIDO
-// ----------------------------------------------------------------------
-function loadProfileData() {
-    const perfilForm = document.getElementById('perfil-form');
-    
-    // 🎯 PONTO DE VERIFICAÇÃO 1: A FUNÇÃO FOI CHAMADA? 🎯
-    console.log("loadProfileData: Função Iniciada"); 
-
-    if (!perfilForm) return; 
-
-    // 🎯 PONTO DE VERIFICAÇÃO 2: O FORMULÁRIO FOI ENCONTRADO? 🎯
-    console.log("loadProfileData: Formulário Encontrado!"); 
-
-    const loggedInUserString = localStorage.getItem('loggedInUser');
-
-    if (loggedInUserString) {
-        const user = JSON.parse(loggedInUserString);
-
-        // 🎯 PONTO DE VERIFICAÇÃO 3: OS DADOS ESTÃO SENDO LIDOS? 🎯
-        console.log("Dados do usuário:", user); 
-        
-        // Remove espaços extras antes de preencher para evitar problemas futuros
-        document.getElementById('nome').value = user.name.trim() || ''; 
-        document.getElementById('email').value = user.email.trim() || ''; 
-        
-        document.querySelector('.perfil-container h2').textContent = `Meu Perfil - Olá, ${user.name.split(' ')[0]}!`;
-        
-    } else {
-        // ... (resto do código)
-    }
-}
-
-// ----------------------------------------------------------------------
-// LÓGICA DE EDIÇÃO DE PERFIL (RF 2º) - CORRIGIDO
-// ----------------------------------------------------------------------
-function handleProfileEdit(event) {
     event.preventDefault(); 
 
-    // 1. Pega os novos valores e aplica .trim() para limpar
-    const newName = document.getElementById('nome').value.trim();
-    const newEmail = document.getElementById('email').value.trim();
-    const newPassword = document.getElementById('senha').value;
+    // 1. Coleta os valores (usa .trim() para remover espaços extras no e-mail)
+    const email = document.getElementById('email').value.trim(); 
+    const password = document.getElementById('password').value; 
 
-    // 2. Pega o e-mail logado e também aplica .trim() na chave de busca
-    const loggedUserString = localStorage.getItem('loggedInUser');
-    if (!loggedUserString) return;
-    
-    // USAMOS .trim() AQUI
-    const oldEmail = JSON.parse(loggedUserString).email.trim(); 
+    // 2. Busca a lista de usuários "cadastrados"
+    const users = JSON.parse(localStorage.getItem('users')) || [];
 
-    // 3. Busca a lista completa de usuários
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    // 3. Tenta encontrar um usuário que corresponda ao e-mail E à senha
+    const foundUser = users.find(user => 
+        // Compara e-mail (normalizado com .trim()) e senha
+        user.email.trim() === email && user.password === password
+    );
 
-    // 4. Encontra o índice do usuário a ser atualizado
-    // USAMOS .trim() AQUI TAMBÉM para garantir que a comparação com a base seja exata
-    const userIndex = users.findIndex(user => user.email.trim() === oldEmail); 
+    if (foundUser) {
+        // 4. Login Sucedido: Salva a sessão no localStorage
+        localStorage.setItem('loggedInUser', JSON.stringify({
+            name: foundUser.name,
+            email: foundUser.email
+        }));
 
-    if (userIndex !== -1) {
-        // Se encontrou o usuário:
-        
-        // a) Atualiza os dados (usando os valores com .trim())
-        users[userIndex].name = newName;
-        users[userIndex].email = newEmail;
-        
-        if (newPassword) {
-            users[userIndex].password = newPassword;
-        }
+        alert(`🎉 Login realizado com sucesso, ${foundUser.name}!`);
 
-        // b) Salva a lista completa e o status de login atualizado
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('loggedInUser', JSON.stringify({
-            name: newName,
-            email: newEmail
-        }));
-
-        alert('✅ Perfil atualizado com sucesso! (Novo nome: ' + newName + ')');
-        
-        // Recarrega a página para atualizar o menu de navegação
-        window.location.reload(); 
-        
-    } else {
-        alert('Erro: Usuário não encontrado na base de dados para atualização.');
-    }
+        // 5. Redireciona para a página inicial
+        window.location.href = 'index.html';
+    } else {
+        // 4. Login Falhou
+        alert('Erro: E-mail ou senha incorretos. Tente novamente.');
+    }
 }
 
 
+// ----------------------------------------------------------------------
+// PREENCHIMENTO DO PERFIL (RF 2º)
+// ----------------------------------------------------------------------
+/**
+ * Carrega e exibe os dados do usuário logado no formulário de perfil.
+ */
+function loadProfileData() {
+    const perfilForm = document.getElementById('perfil-form');
+    
+    // Aborta se a função for chamada em uma página sem o formulário de perfil
+    if (!perfilForm) return; 
 
+    const loggedInUserString = localStorage.getItem('loggedInUser');
 
-// ======================================================================
-// GARANTIR EXECUÇÃO APÓS CARREGAMENTO COMPLETO DA PÁGINA
-// Este bloco deve ser o ÚLTIMO no seu arquivo.
-// ======================================================================
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // ATUALIZA O MENU DE NAVEGAÇÃO (Login/Logout/Perfil)
-    const navFunc = window.updateNavigation;
-    if (typeof navFunc === 'function') {
-        navFunc();
-    }
-    
-    // CARREGA OS DADOS DO PERFIL (se estivermos na página perfil.html)
-    const loadFunc = window.loadProfileData;
-    if (typeof loadFunc === 'function') {
-        loadFunc();
-    }
-    
-    // RENDERIZA OS VEÍCULOS (se estivermos na página inicial)
-    const vehicleList = document.querySelector('.vehicle-list');
-    const renderFunc = window.renderizarVeiculos;
-    if (vehicleList && typeof renderFunc === 'function') {
-        renderFunc(veiculos); 
-    }
-    
-    // Adicionar a lógica de Logout APÓS a navegação ter sido atualizada
-    const logoutButton = document.getElementById('logout-button');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('loggedInUser');
-            alert('Você saiu da sua conta.');
-            window.location.href = 'index.html'; 
-        });
-    }
-});
+    if (loggedInUserString) {
+        const user = JSON.parse(loggedInUserString);
+
+        // Preenche os campos do formulário com os dados do usuário
+        document.getElementById('nome').value = user.name.trim() || ''; 
+        document.getElementById('email').value = user.email.trim() || ''; 
+        
+        // Atualiza o título da página
+        document.querySelector('.perfil-container h2').textContent = `Meu Perfil - Olá, ${user.name.split(' ')[0]}!`;
+        
+    } else {
+        // Se não houver usuário logado, você pode redirecionar ou mostrar uma mensagem
+    }
+}
+
+// ----------------------------------------------------------------------
+// LÓGICA DE EDIÇÃO/ATUALIZAÇÃO DE PERFIL (RF 2º)
+// ----------------------------------------------------------------------
+/**
+ * Lida com a submissão do formulário de edição de perfil.
+ * @param {Event} event - O evento de submissão do formulário.
+ */
+function handleProfileEdit(event) {
+    event.preventDefault(); 
+
+    // 1. Coleta os novos valores, aplicando .trim()
+    const newName = document.getElementById('nome').value.trim();
+    const newEmail = document.getElementById('email').value.trim();
+    const newPassword = document.getElementById('senha').value;
+
+    // 2. Obtém o e-mail original (chave de busca)
+    const loggedUserString = localStorage.getItem('loggedInUser');
+    if (!loggedUserString) return;
+    
+    const oldEmail = JSON.parse(loggedUserString).email.trim(); 
+
+    // 3. Busca a lista completa de usuários
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // 4. Encontra o índice do usuário a ser atualizado (usa .trim() para busca)
+    const userIndex = users.findIndex(user => user.email.trim() === oldEmail); 
+
+    if (userIndex !== -1) {
+        // 5. Atualiza os dados do usuário na lista completa
+        users[userIndex].name = newName;
+        users[userIndex].email = newEmail;
+        
+        // Atualiza a senha APENAS se um novo valor foi fornecido
+        if (newPassword) {
+            users[userIndex].password = newPassword;
+        }
+
+        // 6. Salva a lista completa e o status de login atualizado
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('loggedInUser', JSON.stringify({
+            name: newName,
+            email: newEmail
+        }));
+
+        alert('✅ Perfil atualizado com sucesso! (Novo nome: ' + newName + ')');
+        
+        // Recarrega a página para refletir as alterações no menu/título
+        window.location.reload(); 
+        
+    } else {
+        alert('Erro: Usuário logado não encontrado na base de dados para atualização.');
+    }
+}
 
 
 // ----------------------------------------------------------------------
 // LÓGICA DE SIMULAÇÃO DE ANÚNCIO (RF 8º)
 // ----------------------------------------------------------------------
+/**
+ * Lida com a submissão do formulário de anúncio de veículo.
+ * @param {Event} event - O evento de submissão do formulário.
+ */
 function handleAnuncio(event) {
-    event.preventDefault(); // Impede o recarregamento da página
+    event.preventDefault(); // Impede o recarregamento da página
 
-    // 1. Coleta dos dados do vendedor (usuário logado)
-    const loggedUserString = localStorage.getItem('loggedInUser');
-    if (!loggedUserString) {
-        alert("Erro: Você precisa estar logado para publicar um anúncio.");
-        return;
-    }
-    const user = JSON.parse(loggedUserString);
+    // 1. Validação de Login: Coleta dos dados do vendedor
+    const loggedUserString = localStorage.getItem('loggedInUser');
+    if (!loggedUserString) {
+        alert("Erro: Você precisa estar logado para publicar um anúncio.");
+        return;
+    }
+    const user = JSON.parse(loggedUserString);
 
-    // 🎯 NOVO: Garantir que o Preço é um número válido 🎯
-    const precoValue = document.getElementById('preco').value;
-    const precoFloat = parseFloat(precoValue);
-    if (isNaN(precoFloat)) {
-        alert("Erro de Validação: Por favor, insira um preço válido (apenas números).");
-        return; 
-    }
+    // 2. Validação de Campos Essenciais (Preço e Selects)
+    const precoValue = document.getElementById('preco').value;
+    const precoFloat = parseFloat(precoValue);
+    
+    // Preço deve ser um número válido
+    if (isNaN(precoFloat)) {
+        alert("Erro de Validação: Por favor, insira um preço válido (apenas números).");
+        return; 
+    }
 
-    // 🎯 NOVO: Garantir que os campos SELECT foram selecionados (se forem required) 🎯
-    const combustivelValue = document.getElementById('combustivel').value;
-    const cambioTipoValue = document.getElementById('cambio_tipo').value;
+    // Combustível e Câmbio devem ser selecionados
+    const combustivelValue = document.getElementById('combustivel').value;
+    const cambioTipoValue = document.getElementById('cambio_tipo').value;
 
-    if (!combustivelValue || !cambioTipoValue) {
-        alert("Erro de Validação: Por favor, selecione o Combustível e o Tipo de Câmbio.");
-        return;
-    }
-    
-    
-    // 2. Coleta dos dados do veículo (campos do formulário)
-    const novoAnuncio = {
-        // Bloco 1: Identificação e Preço (Obrigatório)
-        id: Date.now(), // ID único baseado no tempo (simulação)
-        vendedorEmail: user.email,
-        marca: document.getElementById('marca').value.trim(),
-        modelo: document.getElementById('modelo').value.trim(),
-        versao: document.getElementById('versao').value.trim(),
-        anoModelo: document.getElementById('ano_modelo').value.trim(),
-        preco: precoFloat, // Usa o valor já validado
-        localizacao: document.getElementById('localizacao').value.trim(),
-        
-        // Bloco 2: Mecânica e Filtros
-        combustivel: combustivelValue,
-        litragem: document.getElementById('litragem').value.trim(),
-        cambioTipo: cambioTipoValue,
-        tracao: document.getElementById('tracao').value.trim(),
+    if (!combustivelValue || !cambioTipoValue) {
+        alert("Erro de Validação: Por favor, selecione o Combustível e o Tipo de Câmbio.");
+        return;
+    }
+    
+    
+    // 3. Monta o objeto do novo anúncio
+    const novoAnuncio = {
+        // Bloco A: Identificação e Preço (Essenciais)
+        id: Date.now(), // ID único (simulação)
+        vendedorEmail: user.email,
+        marca: document.getElementById('marca').value.trim(),
+        modelo: document.getElementById('modelo').value.trim(),
+        versao: document.getElementById('versao').value.trim(),
+        anoModelo: document.getElementById('ano_modelo').value.trim(),
+        preco: precoFloat, 
+        localizacao: document.getElementById('localizacao').value.trim(),
+        
+        // Bloco B: Mecânica e Filtros
+        combustivel: combustivelValue,
+        litragem: document.getElementById('litragem').value.trim(),
+        cambioTipo: cambioTipoValue,
+        tracao: document.getElementById('tracao').value.trim(),
 
-        // Bloco 3: Acessórios e Descrição
-        descricao: document.getElementById('descricao').value.trim(),
-        seguranca: document.getElementById('seguranca').value.trim(),
-        conforto: document.getElementById('conforto').value.trim(),
-        infotenimento: document.getElementById('infotenimento').value.trim(),
-        
-        // Bloco 4: Fotos (Simulação da URL)
-        // Em um sistema real, aqui salvaríamos as URLs das fotos carregadas no servidor
-        fotosCount: document.getElementById('fotos').files.length || 0,
-        status: 'Ativo'
-    };
+        // Bloco C: Acessórios e Descrição
+        descricao: document.getElementById('descricao').value.trim(),
+        seguranca: document.getElementById('seguranca').value.trim(),
+        conforto: document.getElementById('conforto').value.trim(),
+        infotenimento: document.getElementById('infotenimento').value.trim(),
+        
+        // Bloco D: Fotos (Simulação)
+        fotosCount: document.getElementById('fotos').files.length || 0,
+        status: 'Ativo' // Status inicial do anúncio (simulação)
+    };
 
-    // 3. Simulação de salvamento (em um array de anúncios no localStorage)
-    let anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
-    
-    // Adiciona o novo anúncio à lista
-    anuncios.push(novoAnuncio);
+    // 4. Simulação de salvamento (Adiciona ao array de anúncios no localStorage)
+    let anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
+    anuncios.push(novoAnuncio);
+    localStorage.setItem('anuncios', JSON.stringify(anuncios));
 
-    // Salva a lista atualizada de volta
-    localStorage.setItem('anuncios', JSON.stringify(anuncios));
-
-    // 4. Feedback e Redirecionamento
-    alert('✅ Anúncio Publicado com Sucesso! (' + novoAnuncio.marca + ' ' + novoAnuncio.modelo + ')');
-    
-    // Redireciona para a página de perfil para que o vendedor possa ver o anúncio
-    window.location.href = 'perfil.html';
+    // 5. Feedback e Redirecionamento
+    alert('✅ Anúncio Publicado com Sucesso! (' + novoAnuncio.marca + ' ' + novoAnuncio.modelo + ')');
+    window.location.href = 'perfil.html';
 }
+
+// ======================================================================
+// GARANTIR EXECUÇÃO APÓS CARREGAMENTO COMPLETO DA PÁGINA
+// Este bloco garante que o script seja executado apenas após o DOM estar pronto.
+// ======================================================================
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Executa a função de atualização do menu de navegação
+    const navFunc = window.updateNavigation;
+    if (typeof navFunc === 'function') {
+        navFunc();
+    }
+    
+    // Executa o carregamento dos dados do perfil, se o formulário existir
+    const loadFunc = window.loadProfileData;
+    if (typeof loadFunc === 'function') {
+        loadFunc();
+    }
+    
+    // Executa a renderização inicial dos veículos, se a lista estiver presente
+    const vehicleList = document.querySelector('.vehicle-list');
+    const renderFunc = window.renderizarVeiculos;
+    if (vehicleList && typeof renderFunc === 'function') {
+        renderFunc(veiculos); 
+    }
+    
+    // Re-adiciona a lógica de Logout APÓS a navegação ter sido atualizada
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('loggedInUser');
+            alert('Você saiu da sua conta.');
+            window.location.href = 'index.html'; 
+        });
+    }
+});
